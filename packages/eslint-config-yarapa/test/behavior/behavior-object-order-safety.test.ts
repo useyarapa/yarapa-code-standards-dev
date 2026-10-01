@@ -49,6 +49,8 @@ describe("object ordering safety", () => {
 
   it.each([
     ["interpolated template literal", ["a: `value $", "{second()}`"].join("")],
+    ["quote-prefixed concatenation", 'a: "x" + second()'],
+    ["quote-prefixed call expression", 'a: "x".concat(second())'],
     ["array value containing a call", "a: [second()]"],
     ["object value containing a call", "a: {x: second()}"],
   ])("preserves side-effect order for %s", async (_description, unsafeValue) => {

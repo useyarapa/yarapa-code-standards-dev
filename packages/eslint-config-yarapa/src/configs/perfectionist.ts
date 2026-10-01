@@ -16,7 +16,7 @@ const genericObjectCustomGroups = [
   },
   {
     groupName: "string",
-    elementValuePattern: String.raw`^(?:"|'|\u0060[^$\u0060]*\u0060$)`,
+    elementValuePattern: String.raw`^(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\u0060[^$\u0060\\]*(?:\\.[^$\u0060\\]*)*\u0060)$`,
   },
   {
     groupName: "plain",
