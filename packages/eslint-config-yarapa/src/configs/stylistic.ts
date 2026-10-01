@@ -182,7 +182,6 @@ const stylisticRules: Linter.RulesRecord = {
       ],
     },
   ],
-  "@stylistic/padding-line-between-statements": ["error", ...PADDING_LINE_BETWEEN_STATEMENTS],
   "@stylistic/spaced-comment": [
     "error",
     "always",
@@ -198,6 +197,7 @@ const stylisticRules: Linter.RulesRecord = {
       },
     },
   ],
+  "@stylistic/padding-line-between-statements": ["error", ...PADDING_LINE_BETWEEN_STATEMENTS],
 };
 
 const reactStylisticRules: Linter.RulesRecord = {

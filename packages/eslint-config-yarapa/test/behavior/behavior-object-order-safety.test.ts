@@ -47,6 +47,18 @@ describe("object ordering safety", () => {
     expect(output.indexOf(FIRST_CALL)).toBeLessThan(output.indexOf(SECOND_CALL));
   });
 
+  it.each([
+    ["interpolated template literal", ["a: `value $", "{second()}`"].join("")],
+    ["array value containing a call", "a: [second()]"],
+    ["object value containing a call", "a: {x: second()}"],
+  ])("preserves side-effect order for %s", async (_description, unsafeValue) => {
+    const output = await fix(
+      [VALUE_OPEN, `  ${FIRST_CALL},`, `  ${unsafeValue},`, OBJECT_CLOSE, EMPTY_LINE].join("\n"),
+    );
+
+    expect(output.indexOf(FIRST_CALL)).toBeLessThan(output.indexOf(unsafeValue));
+  });
+
   it("keeps side-effect order across a computed-key partition", async () => {
     const output = await fix(
       [

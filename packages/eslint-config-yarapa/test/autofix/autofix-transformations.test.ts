@@ -28,14 +28,15 @@ describe("autofix safety and idempotence", () => {
     expect(output.endsWith("\n};\n")).toBe(true);
   });
 
-  it("removes an unused import without changing the used export", async () => {
+  it("does not auto-remove an unused import", async () => {
     const output = await fixTwice(
       fullConfig,
       'import { readFileSync } from "node:fs";\nexport const value = 1;\n',
       "fixtures/autofix/unused-import.js",
     );
 
-    expect(output).toBe("export const value = 1;\n");
+    expect(output).toContain("readFileSync");
+    expect(output).toContain("export const value = 1;");
   });
 
   it("normalizes top-level single-parameter arrows idempotently", async () => {

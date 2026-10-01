@@ -1,14 +1,27 @@
 import {describe, expect, it} from "vitest";
 import lint from "@commitlint/lint";
-import type {QualifiedRules} from "@commitlint/types";
+import load from "@commitlint/load";
+import type {LintOptions} from "@commitlint/types";
 
 import config from "../src/index.ts";
 
-describe("commitlint-config-yarapa", () => {
-  const rules = config.rules as QualifiedRules;
+/**
+ * Lint a commit message with the resolved YARAPA commitlint configuration.
+ * @param commit Commit message to validate.
+ * @returns Commitlint validation result.
+ */
+async function lintWithConfig(commit: string) {
+  const resolved = await load(config);
+  const parserOptions = resolved.parserPreset?.parserOpts as LintOptions["parserOpts"];
 
+  return lint(commit, resolved.rules, {
+    parserOpts: parserOptions,
+  });
+}
+
+describe("commitlint-config-yarapa", () => {
   it("passes for a valid conventional commit with scope and short subject", async () => {
-    const result = await lint("feat(api): add auth endpoint", rules);
+    const result = await lintWithConfig("feat(api): add auth endpoint");
 
     expect(result.valid).toBe(true);
     expect(result.errors).toHaveLength(0);
@@ -52,9 +65,14 @@ describe("commitlint-config-yarapa", () => {
       expectedRule: "subject-exclamation-mark",
     },
     {
-      commit: `feat(api): ${"a".repeat(51)}`,
       description: "fails when subject length exceeds 50 characters",
       expectedRule: "subject-max-length",
+      commit: `feat(api): ${"a".repeat(51)}`,
+    },
+    {
+      commit: "feat(api): add auth endpoint.",
+      description: "fails when the conventional preset rejects a trailing period",
+      expectedRule: "subject-full-stop",
     },
     {
       commit: "feat(api): add auth endpoint\n\nThis is a body",
@@ -67,7 +85,7 @@ describe("commitlint-config-yarapa", () => {
       expectedRule: "footer-empty",
     },
   ])("$description", async ({commit, expectedRule}) => {
-    const result = await lint(commit, rules);
+    const result = await lintWithConfig(commit);
 
     expect(result.valid).toBe(false);
     expect(result.errors.some(error => error.name === expectedRule)).toBe(true);

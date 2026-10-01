@@ -15,8 +15,8 @@ const genericObjectCustomGroups = [
     elementValuePattern: String.raw`^[+-]?(?:(?:0[xX][0-9a-fA-F_]+)|(?:0[bB][01_]+)|(?:0[oO][0-7_]+)|(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)(?:[eE][+-]?[0-9][0-9_]*)?)(?:n)?$`,
   },
   {
-    elementValuePattern: "^[\\\"'\u{60}]",
     groupName: "string",
+    elementValuePattern: String.raw`^(?:"|'|\u0060[^$\u0060]*\u0060$)`,
   },
   {
     groupName: "plain",
@@ -28,11 +28,11 @@ const genericObjectCustomGroups = [
   },
   {
     groupName: "array",
-    elementValuePattern: String.raw`^\[`,
+    elementValuePattern: String.raw`^\[[^().\u0060]*\]$`,
   },
   {
     groupName: "object",
-    elementValuePattern: String.raw`^\{`,
+    elementValuePattern: String.raw`^\{[^().\u0060]*\}$`,
   },
   {
     groupName: OTHER_VALUE_GROUP,
@@ -59,6 +59,7 @@ const objectOrderRule: Linter.RuleEntry = [
     type: "natural",
     newlinesBetween: 0,
     newlinesInside: 0,
+    groups: ["type", "docs", "fix", "messages", "schema", "default-options", "unknown"],
     customGroups: [
       {
         elementNamePattern: "^type$",
@@ -85,7 +86,6 @@ const objectOrderRule: Linter.RuleEntry = [
         groupName: "default-options",
       },
     ],
-    groups: ["type", "docs", "fix", "messages", "schema", "default-options", "unknown"],
     useConfigurationIf: {
       matchesAstSelector:
         "ObjectExpression:has(> Property[key.name='create']):has(> Property[key.name='meta']) > Property[key.name='meta'] > ObjectExpression",
@@ -257,16 +257,6 @@ const perfectionistRules: Linter.RulesRecord = {
   "perfectionist/sort-switch-case": naturalAscendingRule,
   "perfectionist/sort-union-types": naturalAscendingRule,
   "perfectionist/sort-variable-declarations": naturalAscendingRule,
-  "perfectionist/sort-arrays": [
-    "error",
-    {
-      order: "asc",
-      type: "natural",
-      useConfigurationIf: {
-        matchesAstSelector: "VariableDeclarator[id.name=/^(SORTED_|sorted)/] > ArrayExpression",
-      },
-    },
-  ],
   "perfectionist/sort-imports": [
     "error",
     {
@@ -302,6 +292,16 @@ const perfectionistRules: Linter.RulesRecord = {
         "type-index",
         "unknown",
       ],
+    },
+  ],
+  "perfectionist/sort-arrays": [
+    "error",
+    {
+      order: "asc",
+      type: "natural",
+      useConfigurationIf: {
+        matchesAstSelector: "VariableDeclarator[id.name=/^(SORTED_|sorted)/] > ArrayExpression",
+      },
     },
   ],
 };

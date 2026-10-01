@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/%40yarapa%2Fcommitlint-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/commitlint-config-yarapa)
 [![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Fcommitlint-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/commitlint-config-yarapa)
 [![codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main)
-[![node version](https://img.shields.io/badge/node-%3E%3D24.15.0%20%3C25-brightgreen.svg)](https://nodejs.org)
+[![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
 [![license](https://img.shields.io/npm/l/%40yarapa%2Fcommitlint-config-yarapa.svg)](../../LICENSE)
 
 Commitlint configuration for Yarapa Conventional Commit messages.
@@ -28,7 +28,7 @@ bun add -d @commitlint/cli @yarapa/commitlint-config-yarapa
 
 | Tool            | Supported range |
 | :-------------- | :-------------- |
-| Node.js         | `>=24.15.0 <25` |
+| Node.js         | `>=24.15.0`     |
 | @commitlint/cli | `>=19.0.0`      |
 
 ## Quick start

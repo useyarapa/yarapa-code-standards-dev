@@ -63,7 +63,6 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "@vitest/eslint-plugin": "1.6.27",
     "@yarapa/eslint-plugin-yarapa": "2.0.0",
-    "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "4.4.5",
     "eslint-plugin-antfu": "3.2.3",
     "eslint-plugin-import-x": "4.17.1",
@@ -79,7 +78,6 @@
     "eslint-plugin-sonarjs": "4.2.2",
     "eslint-plugin-toml": "1.5.0",
     "eslint-plugin-unicorn": "76.0.0",
-    "eslint-plugin-unused-imports": "4.4.1",
     "eslint-plugin-yml": "3.8.1",
     "globals": "17.13.0",
     "jsonc-eslint-parser": "3.3.0",
@@ -96,10 +94,11 @@
     "vitest": "5.0.3"
   },
   "peerDependencies": {
-    "eslint": "^10.4.0"
+    "eslint": "^10.4.0",
+    "typescript": ">=4.8.4 <6.1.0"
   },
   "engines": {
-    "node": ">=24.15.0 <25"
+    "node": ">=24.15.0"
   },
   "publishConfig": {
     "access": "public",

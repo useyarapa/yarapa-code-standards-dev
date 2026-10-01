@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa)
 [![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Fprettier-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa)
-[![node version](https://img.shields.io/badge/node-%3E%3D24.15.0%20%3C25-brightgreen.svg)](https://nodejs.org)
+[![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
 [![license](https://img.shields.io/npm/l/%40yarapa%2Fprettier-config-yarapa.svg)](../../LICENSE)
 
 Shared Prettier configuration for Yarapa projects, including shell formatting.
@@ -27,7 +27,7 @@ bun add -d prettier @yarapa/prettier-config-yarapa
 
 | Tool     | Supported range  |
 | :------- | :--------------- |
-| Node.js  | `>=24.15.0 <25`  |
+| Node.js  | `>=24.15.0`      |
 | Prettier | `>=3.6.0 <4.0.0` |
 
 ## Quick start

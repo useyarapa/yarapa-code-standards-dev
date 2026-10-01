@@ -2,7 +2,6 @@ import {assert, describe, expect, it} from "vitest";
 
 import {eslintForConfigs} from "../helpers";
 import {perfectionist} from "../../src/configs/perfectionist";
-import {sonarjs} from "../../src/configs/sonarjs";
 
 const FUNCTION_OPEN = "export function sample(input) {";
 const OBJECT_OPEN = "  const {";
@@ -143,12 +142,6 @@ describe("object value order", () => {
 
     assert(result);
     expect(result.output).toBe(expected);
-  });
-
-  it("disables the SonarJS shorthand grouping rule that conflicts with object order", () => {
-    const [sonarjsConfig] = sonarjs;
-
-    expect(sonarjsConfig?.rules?.["sonarjs/shorthand-property-grouping"]).toBe("off");
   });
 
   it("uses semantic order for ESLint rule metadata", async () => {

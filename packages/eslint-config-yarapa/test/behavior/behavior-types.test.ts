@@ -103,7 +103,6 @@ describe("type-aware behavior", () => {
     const ruleIds = result.messages.map(message => message.ruleId);
 
     expect(ruleIds).not.toContain("no-unused-vars");
-    expect(ruleIds).not.toContain("unused-imports/no-unused-vars");
     expect(ruleIds).not.toContain("@typescript-eslint/no-unused-vars");
   });
 

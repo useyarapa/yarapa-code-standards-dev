@@ -259,7 +259,6 @@ const sonarjsRules: Linter.RulesRecord = {
   "sonarjs/regex-complexity": "error",
   "sonarjs/review-blockchain-mnemonic": "error",
   "sonarjs/session-regeneration": "error",
-  "sonarjs/shorthand-property-grouping": "off",
   "sonarjs/single-char-in-character-classes": "error",
   "sonarjs/single-character-alternation": "error",
   "sonarjs/slow-regex": "error",

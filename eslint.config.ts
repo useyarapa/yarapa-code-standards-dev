@@ -17,9 +17,9 @@ export default defineConfig(
   yarapa(),
   {
     name: "yarapa/dependency-cruiser-config",
-    files: [".dependency-cruiser.ts"],
     rules: {
       "sonarjs/file-name-differ-from-class": "off",
     },
+    files: [".dependency-cruiser.ts"],
   },
 );

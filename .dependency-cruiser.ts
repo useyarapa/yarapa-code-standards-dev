@@ -5,6 +5,7 @@ const config = {
   forbidden: [
     {
       name: "no-orphans",
+      to: {},
       from: {
         orphan: true,
         pathNot: [
@@ -14,7 +15,6 @@ const config = {
           String.raw`(^|/)(?:babel|webpack|tsdown|vitest)\.config\.(?:js|cjs|mjs|ts|json)$`,
         ],
       },
-      to: {},
     },
     {
       name: "no-duplicate-dep-types",

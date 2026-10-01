@@ -9,7 +9,34 @@ const USE_NUMBER_IS_FINITE_MESSAGE = "Please use Number.isFinite instead";
 const USE_NUMBER_IS_NAN_MESSAGE = "Please use Number.isNaN instead";
 
 const javascriptRules: Linter.RulesRecord = {
+  "constructor-super": "error",
+  "default-param-last": "error",
+  "getter-return": "error",
+  "no-array-constructor": "error",
+  "no-class-assign": "error",
+  "no-const-assign": "error",
+  "no-dupe-args": "error",
+  "no-dupe-class-members": "error",
+  "no-dupe-keys": "error",
+  "no-func-assign": "error",
+  "no-implied-eval": "error",
+  "no-import-assign": "error",
+  "no-new-native-nonconstructor": "error",
+  "no-obj-calls": "error",
+  "no-redeclare": "error",
+  "no-setter-return": "error",
+  "no-shadow": "error",
+  "no-this-before-super": "error",
+  "no-throw-literal": "error",
   "no-undef": "error",
+  "no-unreachable": "error",
+  "no-unsafe-negation": "error",
+  "no-unused-vars": "error",
+  "no-useless-constructor": "error",
+  "no-var": "error",
+  "no-with": "error",
+  "prefer-rest-params": "error",
+  "prefer-spread": "error",
   camelcase: [
     "error",
     {
@@ -17,31 +44,66 @@ const javascriptRules: Linter.RulesRecord = {
       ignoreDestructuring: false,
     },
   ],
+  "dot-notation": [
+    "error",
+    {
+      allowKeywords: true,
+    },
+  ],
+  "no-empty-function": [
+    "error",
+    {
+      allow: ["arrowFunctions", "functions", "methods"],
+    },
+  ],
+  "no-unused-expressions": [
+    "error",
+    {
+      allowShortCircuit: false,
+      allowTaggedTemplates: false,
+      allowTernary: false,
+    },
+  ],
+  "no-use-before-define": [
+    "error",
+    {
+      classes: true,
+      functions: true,
+      variables: true,
+    },
+  ],
+  "prefer-const": [
+    "error",
+    {
+      destructuring: "any",
+      ignoreReadBeforeAssign: true,
+    },
+  ],
+  "prefer-promise-reject-errors": [
+    "error",
+    {
+      allowEmptyReject: true,
+    },
+  ],
 };
 
 const baseRules: Linter.RulesRecord = {
   "block-scoped-var": "error",
   "consistent-return": "error",
-  "constructor-super": "error",
   "default-case-last": "error",
-  "default-param-last": "error",
   "for-direction": "error",
   "func-names": "error",
-  "getter-return": "error",
   "grouped-accessor-pairs": "error",
   "guard-for-in": "error",
   "no-alert": "error",
-  "no-array-constructor": "error",
   "no-async-promise-executor": "error",
   "no-await-in-loop": "error",
   "no-bitwise": "error",
   "no-caller": "error",
   "no-case-declarations": "error",
-  "no-class-assign": "error",
   "no-compare-neg-zero": "error",
   "no-cond-assign": "error",
   "no-console": "error",
-  "no-const-assign": "error",
   "no-constant-binary-expression": "error",
   "no-constant-condition": "error",
   "no-constructor-return": "error",
@@ -49,10 +111,7 @@ const baseRules: Linter.RulesRecord = {
   "no-control-regex": "error",
   "no-debugger": "error",
   "no-delete-var": "error",
-  "no-dupe-args": "error",
-  "no-dupe-class-members": "error",
   "no-dupe-else-if": "error",
-  "no-dupe-keys": "error",
   "no-duplicate-case": "error",
   "no-empty": "error",
   "no-empty-character-class": "error",
@@ -65,10 +124,7 @@ const baseRules: Linter.RulesRecord = {
   "no-extra-boolean-cast": "error",
   "no-extra-label": "error",
   "no-fallthrough": "error",
-  "no-func-assign": "error",
   "no-global-assign": "error",
-  "no-implied-eval": "error",
-  "no-import-assign": "error",
   "no-inner-declarations": "error",
   "no-invalid-regexp": "error",
   "no-irregular-whitespace": "error",
@@ -83,10 +139,8 @@ const baseRules: Linter.RulesRecord = {
   "no-nested-ternary": "error",
   "no-new": "error",
   "no-new-func": "error",
-  "no-new-native-nonconstructor": "error",
   "no-new-wrappers": "error",
   "no-nonoctal-decimal-escape": "error",
-  "no-obj-calls": "error",
   "no-object-constructor": "error",
   "no-octal": "error",
   "no-octal-escape": "error",
@@ -94,44 +148,31 @@ const baseRules: Linter.RulesRecord = {
   "no-promise-executor-return": "error",
   "no-proto": "error",
   "no-prototype-builtins": "error",
-  "no-redeclare": "error",
   "no-regex-spaces": "error",
   "no-script-url": "error",
   "no-self-assign": "error",
   "no-self-compare": "error",
   "no-sequences": "error",
-  "no-setter-return": "error",
-  "no-shadow": "error",
   "no-shadow-restricted-names": "error",
   "no-sparse-arrays": "error",
   "no-template-curly-in-string": "error",
-  "no-this-before-super": "error",
-  "no-throw-literal": "error",
   "no-unassigned-vars": "error",
   "no-undef-init": "error",
-  "no-unreachable": "error",
   "no-unsafe-finally": "error",
-  "no-unsafe-negation": "error",
   "no-unsafe-optional-chaining": "error",
   "no-unused-labels": "error",
   "no-unused-private-class-members": "error",
-  "no-unused-vars": "error",
   "no-useless-assignment": "error",
   "no-useless-backreference": "error",
   "no-useless-catch": "error",
   "no-useless-computed-key": "error",
   "no-useless-concat": "error",
-  "no-useless-constructor": "error",
   "no-useless-escape": "error",
   "no-useless-return": "error",
-  "no-var": "error",
   "no-void": "error",
-  "no-with": "error",
   "prefer-exponentiation-operator": "error",
   "prefer-numeric-literals": "error",
   "prefer-object-spread": "error",
-  "prefer-rest-params": "error",
-  "prefer-spread": "error",
   "prefer-template": "error",
   "preserve-caught-error": "error",
   radix: "error",
@@ -167,12 +208,6 @@ const baseRules: Linter.RulesRecord = {
       commentPattern: "^no default$",
     },
   ],
-  "dot-notation": [
-    "error",
-    {
-      allowKeywords: true,
-    },
-  ],
   eqeqeq: [
     "error",
     "always",
@@ -181,25 +216,10 @@ const baseRules: Linter.RulesRecord = {
     },
   ],
   "max-classes-per-file": ["error", 1],
-  "new-cap": [
-    "error",
-    {
-      capIsNew: false,
-      newIsCap: true,
-      capIsNewExceptions: ["Immutable.Map", "Immutable.Set", "Immutable.List"],
-      newIsCapExceptions: [],
-    },
-  ],
   "no-else-return": [
     "error",
     {
       allowElseIf: false,
-    },
-  ],
-  "no-empty-function": [
-    "error",
-    {
-      allow: ["arrowFunctions", "functions", "methods"],
     },
   ],
   "no-labels": [
@@ -233,6 +253,86 @@ const baseRules: Linter.RulesRecord = {
     "error",
     {
       restrictedNamedExports: ["then"],
+    },
+  ],
+  "no-return-assign": ["error", "always"],
+  "no-underscore-dangle": [
+    "error",
+    {
+      allowAfterSuper: false,
+      allowAfterThis: false,
+      enforceInMethodNames: true,
+      allow: [],
+    },
+  ],
+  "no-unneeded-ternary": [
+    "error",
+    {
+      defaultAssignment: false,
+    },
+  ],
+  "no-unreachable-loop": [
+    "error",
+    {
+      ignore: [],
+    },
+  ],
+  "no-useless-rename": [
+    "error",
+    {
+      ignoreDestructuring: false,
+      ignoreExport: false,
+      ignoreImport: false,
+    },
+  ],
+  "object-shorthand": [
+    "error",
+    "always",
+    {
+      avoidQuotes: true,
+      ignoreConstructors: false,
+    },
+  ],
+  "one-var": ["error", "never"],
+  "operator-assignment": ["error", "always"],
+  "prefer-arrow-callback": [
+    "error",
+    {
+      allowNamedFunctions: false,
+      allowUnboundThis: true,
+    },
+  ],
+  "prefer-destructuring": [
+    "error",
+    {
+      AssignmentExpression: {
+        array: true,
+        object: false,
+      },
+      VariableDeclarator: {
+        array: false,
+        object: true,
+      },
+    },
+    {
+      enforceForRenamedProperties: false,
+    },
+  ],
+  "prefer-regex-literals": [
+    "error",
+    {
+      disallowRedundantWrapping: true,
+    },
+  ],
+  strict: ["error", "never"],
+  "unicode-bom": ["error", "never"],
+  "new-cap": [
+    "error",
+    {
+      capIsNew: false,
+      newIsCap: true,
+      newIsCapExceptions: [],
+      capIsNewExceptions: ["Immutable.Map", "Immutable.Set", "Immutable.List"],
     },
   ],
   "no-restricted-globals": [
@@ -637,106 +737,6 @@ const baseRules: Linter.RulesRecord = {
       selector: "WithStatement",
     },
   ],
-  "no-return-assign": ["error", "always"],
-  "no-underscore-dangle": [
-    "error",
-    {
-      allowAfterSuper: false,
-      allowAfterThis: false,
-      enforceInMethodNames: true,
-      allow: [],
-    },
-  ],
-  "no-unneeded-ternary": [
-    "error",
-    {
-      defaultAssignment: false,
-    },
-  ],
-  "no-unreachable-loop": [
-    "error",
-    {
-      ignore: [],
-    },
-  ],
-  "no-unused-expressions": [
-    "error",
-    {
-      allowShortCircuit: false,
-      allowTaggedTemplates: false,
-      allowTernary: false,
-    },
-  ],
-  "no-use-before-define": [
-    "error",
-    {
-      classes: true,
-      functions: true,
-      variables: true,
-    },
-  ],
-  "no-useless-rename": [
-    "error",
-    {
-      ignoreDestructuring: false,
-      ignoreExport: false,
-      ignoreImport: false,
-    },
-  ],
-  "object-shorthand": [
-    "error",
-    "always",
-    {
-      avoidQuotes: true,
-      ignoreConstructors: false,
-    },
-  ],
-  "one-var": ["error", "never"],
-  "operator-assignment": ["error", "always"],
-  "prefer-arrow-callback": [
-    "error",
-    {
-      allowNamedFunctions: false,
-      allowUnboundThis: true,
-    },
-  ],
-  "prefer-const": [
-    "error",
-    {
-      destructuring: "any",
-      ignoreReadBeforeAssign: true,
-    },
-  ],
-  "prefer-destructuring": [
-    "error",
-    {
-      AssignmentExpression: {
-        array: true,
-        object: false,
-      },
-      VariableDeclarator: {
-        array: false,
-        object: true,
-      },
-    },
-    {
-      enforceForRenamedProperties: false,
-    },
-  ],
-  "prefer-promise-reject-errors": [
-    "error",
-    {
-      allowEmptyReject: true,
-    },
-  ],
-  "prefer-regex-literals": [
-    "error",
-    {
-      disallowRedundantWrapping: true,
-    },
-  ],
-  strict: ["error", "never"],
-  "unicode-bom": ["error", "never"],
 };
 
 export const base: Linter.Config[] = [

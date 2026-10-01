@@ -14,7 +14,7 @@ const VALID_SOURCE = "src/valid.ts";
 describe("JavaScript policy behavior", () => {
   it.each([
     {
-      expectedRule: "unused-imports/no-unused-vars",
+      expectedRule: "no-unused-vars",
       name: "unused JavaScript variables",
       source: "const unused = 1;\n",
     },
