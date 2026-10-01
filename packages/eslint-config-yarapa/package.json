@@ -1,6 +1,6 @@
 {
   "name": "@yarapa/eslint-config-yarapa",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Strict, type-aware ESLint Flat Config for JavaScript, TypeScript, React, Next.js, and Node.js.",
   "keywords": [
     "eslint-config",
