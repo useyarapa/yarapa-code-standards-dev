@@ -1,0 +1,18 @@
+{
+  "changelog": "@changesets/cli/changelog",
+  "commit": false,
+  "access": "public",
+  "baseBranch": "main",
+  "fixed": [
+    [
+      "@yarapa/commitlint-config-yarapa",
+      "@yarapa/eslint-config-yarapa",
+      "@yarapa/prettier-config-yarapa"
+    ]
+  ],
+  "updateInternalDependencies": "patch",
+  "privatePackages": {
+    "version": false,
+    "tag": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "*.{ts,tsx,js,jsx,mjs,cjs}": [
+    "pnpm exec eslint --fix --cache --max-warnings=0 --no-warn-ignored",
+    "prettier --write --cache"
+  ],
+  "*.{json,md,yml,yaml}": ["prettier --write --cache"],
+  ".husky/{commit-msg,pre-commit,pre-push}": ["prettier --write --cache"]
+}

@@ -1,0 +1,29 @@
+heavy:
+  - "**"
+  - "!**/*.md"
+  - "!LICENSE"
+  - "!.changeset/**"
+  - "!.github/ISSUE_TEMPLATE/**"
+  - "!.github/pull_request_template.md"
+  - "!.github/CODEOWNERS"
+  - "!.github/dependabot.yml"
+  - "!.github/labeler.yml"
+  - "!.vscode/**"
+  - "!.claude/**"
+  - "!.agents/**"
+  - "!CLAUDE.md"
+  - "!AGENTS.md"
+  - "!**/*.png"
+  - "!**/*.svg"
+  - "!**/*.jpg"
+
+workflow:
+  - ".github/workflows/**"
+
+changeset:
+  - ".changeset/**"
+
+release:
+  - ".changeset/**"
+  - "packages/*/package.json"
+  - ".github/workflows/release.yml"

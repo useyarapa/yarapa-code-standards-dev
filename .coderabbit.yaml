@@ -1,0 +1,40 @@
+language: "en-US"
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: true
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "packages/**"
+    - "{package.json,pnpm-workspace.yaml,tsconfig.json,turbo.json,eslint.config.ts,.nvmrc}"
+    - "pnpm-lock.yaml"
+    - ".changeset/**"
+    - ".github/{workflows,actions,ISSUE_TEMPLATE}/**"
+    - ".husky/**"
+    - "!packages/**/fixtures/**"
+    - "!packages/**/LICENSE"
+    - "!.changeset/README.md"
+    - "!.agents/**"
+    - "!.claude/**"
+    - "!AGENTS.md"
+    - "!CLAUDE.md"
+    - "!CONTEXT.md"
+  path_instructions:
+    - path: "**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"
+      instructions: |
+        Resolve type and lint diagnostics at their source. Report a changed bypass only when it hides an active diagnostic or widens an exception: @ts-ignore, @ts-expect-error without a specific explanation, unsafe casts such as as any, skipped tests, or undocumented or broad eslint-disable directives. Accept necessary suppressions when they are narrow and justified; cite the hidden diagnostic or broadened scope.
+    - path: "**/test/**"
+      instructions: |
+        Evaluate lint-policy tests by observable diagnostics on representative source. Static config assertions may protect composition, scope, or API shape, but do not prove rule behavior on their own. Report a coverage gap when changed rule behavior could escape existing tests.
+    - path: "packages/{commitlint-config-yarapa,eslint-config-yarapa,prettier-config-yarapa}/**"
+      instructions: |
+        Use each package manifest's exports map as the consumer boundary. Keep implementation modules private unless a documented, supported export exposes them. Treat dist as generated; report committed output that has no matching source/build change or disagrees with source.
+knowledge_base:
+  code_guidelines:
+    enabled: false
