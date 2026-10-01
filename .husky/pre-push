@@ -1,0 +1,167 @@
+#!/usr/bin/env sh
+set -eu
+
+ignore_regex='(^|/)[^/]*\.md$|^LICENSE$|^\.github/ISSUE_TEMPLATE/|^\.github/pull_request_template\.md$|^\.github/CODEOWNERS$|^\.github/dependabot\.yml$|^\.github/labeler\.yml$|^\.vscode/|^\.claude/|^\.agents/|^CLAUDE\.md$|^AGENTS\.md$|(^|/)[^/]*\.(png|svg|jpg)$'
+
+is_zero_oid() {
+  case "$1" in
+    '' | *[!0]*) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
+requires_verification() {
+  files=$1
+
+  if printf '%s\n' "$files" | grep -Eq '^\.changeset/'; then
+    return 0
+  fi
+
+  if printf '%s\n' "$files" | grep -Ev "$ignore_regex" > /dev/null; then
+    return 0
+  else
+    grep_status=$?
+  fi
+
+  if [ "$grep_status" -eq 1 ]; then
+    return 1
+  fi
+
+  return "$grep_status"
+}
+
+remove_verification_worktree() {
+  verification_root=$1
+  verification_worktree=$2
+
+  git worktree remove --force "$verification_worktree" > /dev/null 2>&1 || true
+  rmdir "$verification_root" 2> /dev/null || true
+}
+
+run_release_verification() {
+  pushed_oid=$1
+  release_root=$(mktemp -d "${TMPDIR:-/tmp}/yarapa-release-verify.XXXXXX")
+  release_worktree="$release_root/worktree"
+
+  git worktree add --quiet --detach "$release_worktree" "$pushed_oid"
+
+  release_status=0
+  (
+    set -eu
+    cd "$release_worktree"
+    pnpm install --frozen-lockfile --ignore-scripts
+    pnpm --filter @yarapa/prettier-config-yarapa build
+    pnpm changeset version
+  ) || release_status=$?
+
+  remove_verification_worktree "$release_root" "$release_worktree"
+
+  return "$release_status"
+}
+
+run_verification() {
+  compare_ref=$1
+  pushed_oid=$2
+  changed_files=${3:-}
+
+  run_actionlint=0
+  if [ -z "$changed_files" ] || printf '%s\n' "$changed_files" | grep -Eq '^\.github/workflows/'; then
+    run_actionlint=1
+  fi
+
+  if [ "$run_actionlint" -eq 1 ] && ! command -v actionlint > /dev/null 2>&1; then
+    printf '%s\n' "pre-push verification requires actionlint for workflow changes." >&2
+    return 1
+  fi
+
+  verification_root=$(mktemp -d "${TMPDIR:-/tmp}/yarapa-pre-push-verify.XXXXXX")
+  verification_worktree="$verification_root/worktree"
+
+  git worktree add --quiet --detach "$verification_worktree" "$pushed_oid"
+
+  verification_status=0
+  (
+    set -eu
+    cd "$verification_worktree"
+    HUSKY=0 pnpm install --frozen-lockfile
+    if [ "$run_actionlint" -eq 1 ]; then
+      actionlint -pyflakes= .github/workflows/*.yml
+    fi
+    pnpm verify
+    pnpm coverage:diff --compare-branch "$compare_ref"
+  ) || verification_status=$?
+
+  remove_verification_worktree "$verification_root" "$verification_worktree"
+
+  if [ "$verification_status" -ne 0 ]; then
+    return "$verification_status"
+  fi
+
+  run_release_verification "$pushed_oid"
+}
+
+while IFS=' ' read -r local_ref local_oid remote_ref remote_oid || [ -n "${local_ref:-}" ]; do
+  : "$local_ref" "$remote_ref"
+
+  if is_zero_oid "${local_oid:-}"; then
+    continue
+  fi
+
+  if is_zero_oid "${remote_oid:-}"; then
+    if git rev-parse --verify --quiet 'origin/main^{commit}' > /dev/null 2>&1; then
+      compare_ref="origin/main"
+    else
+      compare_ref="$local_oid~1"
+    fi
+    commit_range="$compare_ref..$local_oid"
+  else
+    compare_ref="$remote_oid"
+    commit_range="$remote_oid..$local_oid"
+  fi
+
+  if ! commits=$(git rev-list --reverse "$commit_range" 2> /dev/null); then
+    run_verification "$compare_ref" "$local_oid"
+    continue
+  fi
+
+  [ -n "$commits" ] || continue
+
+  changed_files=
+  diff_failed=0
+
+  if [ "$(printf '%s\n' "$commits" | wc -l | tr -d ' ')" -eq 1 ]; then
+    if ! changed_files=$(git diff-tree --no-commit-id --name-only -r --root -m --no-renames "$local_oid" 2> /dev/null); then
+      diff_failed=1
+    fi
+  else
+    for commit in $commits; do
+      if ! commit_files=$(git diff-tree --no-commit-id --name-only -r --root -m --no-renames "$commit" 2> /dev/null); then
+        diff_failed=1
+        break
+      fi
+      if [ -n "$commit_files" ]; then
+        if [ -n "$changed_files" ]; then
+          changed_files=$(printf '%s\n%s' "$changed_files" "$commit_files")
+        else
+          changed_files=$commit_files
+        fi
+      fi
+    done
+  fi
+
+  if [ "$diff_failed" -ne 0 ]; then
+    run_verification "$compare_ref" "$local_oid"
+    continue
+  fi
+
+  [ -n "$changed_files" ] || continue
+
+  if requires_verification "$changed_files"; then
+    run_verification "$compare_ref" "$local_oid" "$changed_files"
+  else
+    verification_status=$?
+    if [ "$verification_status" -ne 1 ]; then
+      run_verification "$compare_ref" "$local_oid"
+    fi
+  fi
+done

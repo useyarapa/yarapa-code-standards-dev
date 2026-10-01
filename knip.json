@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreDependencies": ["@arethetypeswrong/cli", "eslint-import-resolver-typescript", "publint"],
+  "ignore": ["packages/eslint-config-yarapa/fixtures/**"],
+  "workspaces": {
+    "packages/commitlint-config-yarapa": {
+      "ignoreDependencies": ["@commitlint/config-conventional", "@commitlint/cli"]
+    }
+  }
+}
