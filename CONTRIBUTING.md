@@ -2,7 +2,7 @@
 
 Thank you for contributing to Yarapa Code Standards.
 
-This pnpm workspace publishes `@yarapa/eslint-config-yarapa` under `packages/eslint-config-yarapa/`, `@yarapa/prettier-config-yarapa` under `packages/prettier-config-yarapa/`, and `@yarapa/commitlint-config-yarapa` under `packages/commitlint-config-yarapa/`.
+This pnpm workspace publishes `@yarapa/eslint-config-yarapa-imprement-demo` under `packages/eslint-config-yarapa/`, `@yarapa/prettier-config-yarapa-imprement-demo` under `packages/prettier-config-yarapa/`, and `@yarapa/commitlint-config-yarapa-imprement-demo` under `packages/commitlint-config-yarapa/`.
 
 ## Code of Conduct
 

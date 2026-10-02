@@ -19,12 +19,12 @@ body:
       options:
         - label: I searched existing issues and verified this has not been reported yet.
           required: true
-        - label: I tested against the latest version of `@yarapa/eslint-config-yarapa`.
+        - label: I tested against the latest version of `@yarapa/eslint-config-yarapa-imprement-demo`.
           required: true
   - type: input
     id: version
     attributes:
-      label: "@yarapa/eslint-config-yarapa version"
+      label: "@yarapa/eslint-config-yarapa-imprement-demo version"
       placeholder: 0.0.0
     validations:
       required: true

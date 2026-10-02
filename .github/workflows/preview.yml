@@ -25,11 +25,11 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
         with:
           cache: true
           require-lockfile: true
@@ -40,6 +40,8 @@ jobs:
           pnpm exec pkg-pr-new publish
           --pnpm
           --previewVersion
+          --commentWithDev
+          --commentWithSha
           --packageManager=pnpm,npm,yarn
           ./packages/eslint-config-yarapa
           ./packages/prettier-config-yarapa

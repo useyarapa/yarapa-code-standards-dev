@@ -183,13 +183,13 @@ importers:
       '@eslint/config-inspector':
         specifier: 3.5.0
         version: 3.5.0(crossws@0.4.12(srvx@1.0.5))(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(srvx@1.0.5)
-      '@yarapa/commitlint-config-yarapa':
+      '@yarapa/commitlint-config-yarapa-imprement-demo':
         specifier: workspace:*
         version: link:packages/commitlint-config-yarapa
-      '@yarapa/eslint-config-yarapa':
+      '@yarapa/eslint-config-yarapa-imprement-demo':
         specifier: workspace:*
         version: link:packages/eslint-config-yarapa
-      '@yarapa/prettier-config-yarapa':
+      '@yarapa/prettier-config-yarapa-imprement-demo':
         specifier: workspace:*
         version: link:packages/prettier-config-yarapa
       dependency-cruiser:

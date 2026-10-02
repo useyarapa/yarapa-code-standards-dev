@@ -1,7 +1,7 @@
-# @yarapa/prettier-config-yarapa
+# @yarapa/prettier-config-yarapa-imprement-demo
 
-[![npm version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa)
-[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Fprettier-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa)
+[![npm version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa-imprement-demo)
+[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Fprettier-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa-imprement-demo)
 [![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
 [![license](https://img.shields.io/npm/l/%40yarapa%2Fprettier-config-yarapa.svg)](../../LICENSE)
 
@@ -11,16 +11,16 @@ Shared Prettier configuration for Yarapa projects, including shell formatting.
 
 ```sh
 # pnpm
-pnpm add -D prettier @yarapa/prettier-config-yarapa
+pnpm add -D prettier @yarapa/prettier-config-yarapa-imprement-demo
 
 # npm
-npm install --save-dev prettier @yarapa/prettier-config-yarapa
+npm install --save-dev prettier @yarapa/prettier-config-yarapa-imprement-demo
 
 # yarn
-yarn add -D prettier @yarapa/prettier-config-yarapa
+yarn add -D prettier @yarapa/prettier-config-yarapa-imprement-demo
 
 # bun
-bun add -d prettier @yarapa/prettier-config-yarapa
+bun add -d prettier @yarapa/prettier-config-yarapa-imprement-demo
 ```
 
 ## Requirements
@@ -36,20 +36,20 @@ The simplest setup is to reference the package from `package.json`:
 
 ```json
 {
-  "prettier": "@yarapa/prettier-config-yarapa"
+  "prettier": "@yarapa/prettier-config-yarapa-imprement-demo"
 }
 ```
 
 You can also use `.prettierrc.json`:
 
 ```json
-"@yarapa/prettier-config-yarapa"
+"@yarapa/prettier-config-yarapa-imprement-demo"
 ```
 
 Or re-export it from `prettier.config.mjs`:
 
 ```js
-import yarapaPrettier from "@yarapa/prettier-config-yarapa";
+import yarapaPrettier from "@yarapa/prettier-config-yarapa-imprement-demo";
 
 export default yarapaPrettier;
 ```
@@ -93,7 +93,7 @@ The package also bundles `prettier-plugin-sh`, so shell scripts and Husky hook f
 
 ## Using it with ESLint
 
-[`@yarapa/eslint-config-yarapa`](../eslint-config-yarapa) is designed to work with this config. Prettier owns layout formatting; ESLint owns diagnostics, code quality, semantic fixes, and non-conflicting structural rules.
+[`@yarapa/eslint-config-yarapa-imprement-demo`](../eslint-config-yarapa) is designed to work with this config. Prettier owns layout formatting; ESLint owns diagnostics, code quality, semantic fixes, and non-conflicting structural rules.
 
 Run both tools independently rather than running Prettier through ESLint.
 

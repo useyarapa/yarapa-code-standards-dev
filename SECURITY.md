@@ -6,11 +6,11 @@ Before the first public release, security fixes apply to the current unreleased 
 
 After publication, only the latest published release of each package receives security updates. Earlier releases and pre-release versions are not supported.
 
-| Package                            | Current / latest release | Earlier releases |
-| ---------------------------------- | ------------------------ | ---------------- |
-| `@yarapa/eslint-config-yarapa`     | Supported                | Not supported    |
-| `@yarapa/prettier-config-yarapa`   | Supported                | Not supported    |
-| `@yarapa/commitlint-config-yarapa` | Supported                | Not supported    |
+| Package                                           | Current / latest release | Earlier releases |
+| ------------------------------------------------- | ------------------------ | ---------------- |
+| `@yarapa/eslint-config-yarapa-imprement-demo`     | Supported                | Not supported    |
+| `@yarapa/prettier-config-yarapa-imprement-demo`   | Supported                | Not supported    |
+| `@yarapa/commitlint-config-yarapa-imprement-demo` | Supported                | Not supported    |
 
 ## Reporting a Vulnerability
 

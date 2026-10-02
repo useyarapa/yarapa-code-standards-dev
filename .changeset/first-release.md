@@ -1,7 +1,7 @@
 ---
-"@yarapa/commitlint-config-yarapa": major
-"@yarapa/eslint-config-yarapa": major
-"@yarapa/prettier-config-yarapa": major
+"@yarapa/commitlint-config-yarapa-imprement-demo": major
+"@yarapa/eslint-config-yarapa-imprement-demo": major
+"@yarapa/prettier-config-yarapa-imprement-demo": major
 ---
 
 First release.

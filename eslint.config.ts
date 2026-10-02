@@ -1,5 +1,5 @@
 import {defineConfig, globalIgnores} from "eslint/config";
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default defineConfig(
   globalIgnores([

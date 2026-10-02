@@ -6,9 +6,9 @@ Purpose, audience, and design stance of the Yarapa Code Standards repository.
 
 `yarapa-code-standards` is a public repository with a private root pnpm workspace that publishes three public packages:
 
-- [`@yarapa/eslint-config-yarapa`](../../packages/eslint-config-yarapa/README.md) — ESLint 10 Flat Config standard for JavaScript, TypeScript, React, Next.js, Node.js, browser, tests, and supported data/document formats.
-- [`@yarapa/prettier-config-yarapa`](../../packages/prettier-config-yarapa/README.md) — shared Prettier configuration.
-- [`@yarapa/commitlint-config-yarapa`](../../packages/commitlint-config-yarapa/README.md) — Commitlint configuration for Yarapa commit-message policy.
+- [`@yarapa/eslint-config-yarapa-imprement-demo`](../../packages/eslint-config-yarapa/README.md) — ESLint 10 Flat Config standard for JavaScript, TypeScript, React, Next.js, Node.js, browser, tests, and supported data/document formats.
+- [`@yarapa/prettier-config-yarapa-imprement-demo`](../../packages/prettier-config-yarapa/README.md) — shared Prettier configuration.
+- [`@yarapa/commitlint-config-yarapa-imprement-demo`](../../packages/commitlint-config-yarapa/README.md) — Commitlint configuration for Yarapa commit-message policy.
 
 The repository keeps shared engineering standards authored once and consumed by multiple projects.
 

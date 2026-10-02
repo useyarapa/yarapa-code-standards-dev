@@ -47,7 +47,7 @@ A public repository with a private root pnpm workspace, orchestrated by Turborep
 
 1. `packages/*/src/` is the source for package behavior.
 2. `tsdown` builds package entrypoints into generated `dist/` outputs.
-3. Root `eslint.config.ts` imports `@yarapa/eslint-config-yarapa` from the workspace build. Turbo makes root lint depend on the ESLint package build.
+3. Root `eslint.config.ts` imports `@yarapa/eslint-config-yarapa-imprement-demo` from the workspace build. Turbo makes root lint depend on the ESLint package build.
 4. Root lint is not byte-for-byte identical to a consumer calling `yarapa()`: the root config also adds repository-only global ignores and a root-only rule override for `.dependency-cruiser.ts`.
 
 ## ESLint Policy Ownership

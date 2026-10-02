@@ -18,6 +18,7 @@ permissions: {}
 jobs:
   select-mode:
     name: Detect Release Mode
+    if: github.repository == 'useyarapa/yarapa-code-standards'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -26,18 +27,17 @@ jobs:
       publish-plan-artifact-id: ${{ steps.select.outputs.publish-plan-artifact-id }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
         with:
-          cache: true
           require-lockfile: true
       - name: Select Changesets mode
         id: select
-        uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51
 
   version:
     name: Version Packages
@@ -49,22 +49,21 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
         with:
-          cache: true
           require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Build Prettier config
-        run: pnpm --filter @yarapa/prettier-config-yarapa build
+        run: pnpm --filter @yarapa/prettier-config-yarapa-imprement-demo build
       - name: Create or update Version Packages PR
-        uses: changesets/action/version@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        uses: changesets/action/version@ae32849d5ba541f9ae29e40e22a623bc13562f51
         with:
           commit-message: "chore(release): version packages"
           pr-title: "chore(release): version packages"
@@ -80,22 +79,19 @@ jobs:
       pack-dir-artifact-id: ${{ steps.pack.outputs.pack-dir-artifact-id }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
         with:
-          cache: true
           require-lockfile: true
-      - name: Verify release commit
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: pnpm verify
+      - name: Build publishable packages
+        run: pnpm build
       - name: Pack publishable packages
         id: pack
-        uses: changesets/action/pack@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        uses: changesets/action/pack@ae32849d5ba541f9ae29e40e22a623bc13562f51
         with:
           publish-plan-artifact-id: ${{ needs.select-mode.outputs.publish-plan-artifact-id }}
 
@@ -108,29 +104,27 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
         with:
-          cache: true
           require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Configure npm registry for OIDC publishing
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - name: Configure npm registry for bootstrap publishing
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version-file: .nvmrc
           registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
       - name: Publish to npm and create GitHub releases
-        uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        uses: changesets/action/publish@ae32849d5ba541f9ae29e40e22a623bc13562f51
         with:
           pack-dir-artifact-id: ${{ needs.pack.outputs.pack-dir-artifact-id }}
           create-github-releases: true

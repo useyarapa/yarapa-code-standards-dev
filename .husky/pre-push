@@ -50,7 +50,7 @@ run_release_verification() {
     set -eu
     cd "$release_worktree"
     pnpm install --frozen-lockfile --ignore-scripts
-    pnpm --filter @yarapa/prettier-config-yarapa build
+    pnpm --filter @yarapa/prettier-config-yarapa-imprement-demo build
     pnpm changeset version
   ) || release_status=$?
 

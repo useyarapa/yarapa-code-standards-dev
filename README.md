@@ -2,9 +2,9 @@
 
 [![Verify workflow status](https://github.com/useyarapa/yarapa-code-standards/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main)
-[![ESLint config version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa.svg?color=cb3837&label=eslint-config)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa)
-[![Prettier config version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa.svg?color=cb3837&label=prettier-config)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa)
-[![Commitlint config version](https://img.shields.io/npm/v/%40yarapa%2Fcommitlint-config-yarapa.svg?color=cb3837&label=commitlint-config)](https://www.npmjs.com/package/@yarapa/commitlint-config-yarapa)
+[![ESLint config version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa.svg?color=cb3837&label=eslint-config)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
+[![Prettier config version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa.svg?color=cb3837&label=prettier-config)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa-imprement-demo)
+[![Commitlint config version](https://img.shields.io/npm/v/%40yarapa%2Fcommitlint-config-yarapa.svg?color=cb3837&label=commitlint-config)](https://www.npmjs.com/package/@yarapa/commitlint-config-yarapa-imprement-demo)
 [![node version](https://img.shields.io/badge/node-%3E%3D24.15.0%20%3C25-brightgreen.svg)](https://nodejs.org)
 [![license](https://img.shields.io/github/license/useyarapa/yarapa-code-standards.svg)](LICENSE)
 
@@ -12,11 +12,11 @@ Shared linting, formatting, and commit-message standards for Yarapa JavaScript a
 
 ## Packages
 
-| Package                                                                 | Purpose                                                                                                                          |
-| :---------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
-| [`@yarapa/eslint-config-yarapa`](packages/eslint-config-yarapa)         | Strict ESLint Flat Config for JavaScript, TypeScript, React, Next.js, Node.js, browser projects, tests, and common data formats. |
-| [`@yarapa/prettier-config-yarapa`](packages/prettier-config-yarapa)     | Shared Prettier configuration, including shell formatting.                                                                       |
-| [`@yarapa/commitlint-config-yarapa`](packages/commitlint-config-yarapa) | Conventional Commit policy for commit messages.                                                                                  |
+| Package                                                                                | Purpose                                                                                                                          |
+| :------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------- |
+| [`@yarapa/eslint-config-yarapa-imprement-demo`](packages/eslint-config-yarapa)         | Strict ESLint Flat Config for JavaScript, TypeScript, React, Next.js, Node.js, browser projects, tests, and common data formats. |
+| [`@yarapa/prettier-config-yarapa-imprement-demo`](packages/prettier-config-yarapa)     | Shared Prettier configuration, including shell formatting.                                                                       |
+| [`@yarapa/commitlint-config-yarapa-imprement-demo`](packages/commitlint-config-yarapa) | Conventional Commit policy for commit messages.                                                                                  |
 
 ## Quick start
 
@@ -24,15 +24,15 @@ Install the complete standards suite:
 
 ```sh
 # pnpm 12
-pnpm add --allow-build=unrs-resolver -D eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa @yarapa/prettier-config-yarapa @yarapa/commitlint-config-yarapa
+pnpm add --allow-build=unrs-resolver -D eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa-imprement-demo @yarapa/prettier-config-yarapa-imprement-demo @yarapa/commitlint-config-yarapa-imprement-demo
 ```
 
 For npm, Yarn, or Bun:
 
 ```sh
-npm install --save-dev eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa @yarapa/prettier-config-yarapa @yarapa/commitlint-config-yarapa
-yarn add -D eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa @yarapa/prettier-config-yarapa @yarapa/commitlint-config-yarapa
-bun add -d eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa @yarapa/prettier-config-yarapa @yarapa/commitlint-config-yarapa
+npm install --save-dev eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa-imprement-demo @yarapa/prettier-config-yarapa-imprement-demo @yarapa/commitlint-config-yarapa-imprement-demo
+yarn add -D eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa-imprement-demo @yarapa/prettier-config-yarapa-imprement-demo @yarapa/commitlint-config-yarapa-imprement-demo
+bun add -d eslint prettier @commitlint/cli @yarapa/eslint-config-yarapa-imprement-demo @yarapa/prettier-config-yarapa-imprement-demo @yarapa/commitlint-config-yarapa-imprement-demo
 ```
 
 The pnpm 12 command explicitly allows the lifecycle build used by Import-X's native resolver, `unrs-resolver`.
@@ -42,7 +42,7 @@ The pnpm 12 command explicitly allows the lifecycle build used by Import-X's nat
 Create `eslint.config.mjs`:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa();
 ```
@@ -50,7 +50,7 @@ export default yarapa();
 Node.js is the default runtime context. Enable project context explicitly when needed:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa({
   browser: true,
@@ -68,7 +68,7 @@ Add the shared config to `package.json`:
 
 ```json
 {
-  "prettier": "@yarapa/prettier-config-yarapa"
+  "prettier": "@yarapa/prettier-config-yarapa-imprement-demo"
 }
 ```
 
@@ -82,7 +82,7 @@ Create `.commitlintrc.json`:
 
 ```json
 {
-  "extends": ["@yarapa/commitlint-config-yarapa"]
+  "extends": ["@yarapa/commitlint-config-yarapa-imprement-demo"]
 }
 ```
 

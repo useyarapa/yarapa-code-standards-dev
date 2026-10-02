@@ -1,7 +1,7 @@
-# @yarapa/eslint-config-yarapa
+# @yarapa/eslint-config-yarapa-imprement-demo
 
-[![npm version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa)
-[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Feslint-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa)
+[![npm version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
+[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Feslint-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
 [![codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main)
 [![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
 [![license](https://img.shields.io/npm/l/%40yarapa%2Feslint-config-yarapa.svg)](../../LICENSE)
@@ -14,16 +14,16 @@ It supports JavaScript, TypeScript, Node.js, browser projects, React, Next.js co
 
 ```sh
 # pnpm 12
-pnpm add --allow-build=unrs-resolver -D eslint typescript @yarapa/eslint-config-yarapa
+pnpm add --allow-build=unrs-resolver -D eslint typescript @yarapa/eslint-config-yarapa-imprement-demo
 
 # npm
-npm install --save-dev eslint typescript @yarapa/eslint-config-yarapa
+npm install --save-dev eslint typescript @yarapa/eslint-config-yarapa-imprement-demo
 
 # yarn
-yarn add -D eslint typescript @yarapa/eslint-config-yarapa
+yarn add -D eslint typescript @yarapa/eslint-config-yarapa-imprement-demo
 
 # bun
-bun add -d eslint typescript @yarapa/eslint-config-yarapa
+bun add -d eslint typescript @yarapa/eslint-config-yarapa-imprement-demo
 ```
 
 The pnpm 12 command explicitly allows the lifecycle build required by Import-X's native resolver, `unrs-resolver`. Without it, pnpm can report `ERR_PNPM_IGNORED_BUILDS`.
@@ -43,7 +43,7 @@ This package is ESM-only and uses ESLint Flat Config.
 Create `eslint.config.mjs`:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa();
 ```
@@ -86,7 +86,7 @@ The config exposes project-context switches rather than rule-by-rule preferences
 Browser example:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa({browser: true});
 ```
@@ -94,7 +94,7 @@ export default yarapa({browser: true});
 React example:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa({browser: true, react: true});
 ```
@@ -102,7 +102,7 @@ export default yarapa({browser: true, react: true});
 Next.js example:
 
 ```js
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default yarapa({nextjs: true});
 ```
@@ -136,7 +136,7 @@ Targeted `eslint-disable` directives are allowed, but they must remain narrow an
 
 Use ESLint for diagnostics, semantic fixes, code quality, and non-conflicting structural rules.
 
-Use [`@yarapa/prettier-config-yarapa`](../prettier-config-yarapa) for layout formatting such as indentation, quotes, wrapping, and semicolons.
+Use [`@yarapa/prettier-config-yarapa-imprement-demo`](../prettier-config-yarapa) for layout formatting such as indentation, quotes, wrapping, and semicolons.
 
 ## Ignoring generated or vendor files
 
@@ -144,7 +144,7 @@ Use ESLint's `globalIgnores()` for project-specific paths:
 
 ```js
 import {defineConfig, globalIgnores} from "eslint/config";
-import yarapa from "@yarapa/eslint-config-yarapa";
+import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
 export default defineConfig(globalIgnores(["dist/**", "coverage/**"]), yarapa());
 ```
