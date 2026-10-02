@@ -16,9 +16,7 @@ permissions: {}
 jobs:
   publish:
     name: Publish Preview
-    if: >-
-      github.repository == 'useyarapa/yarapa-code-standards' &&
-      contains(github.event.pull_request.labels.*.name, 'preview')
+    if: contains(github.event.pull_request.labels.*.name, 'preview')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

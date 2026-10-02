@@ -18,7 +18,6 @@ permissions: {}
 jobs:
   select-mode:
     name: Detect Release Mode
-    if: github.repository == 'useyarapa/yarapa-code-standards'
     runs-on: ubuntu-latest
     permissions:
       contents: read
