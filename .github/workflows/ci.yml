@@ -78,10 +78,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Check lint
         run: pnpm lint:check
 
@@ -97,10 +94,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Check formatting
         run: pnpm format:check
       - name: Check package.json ordering
@@ -121,10 +115,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Run tests with coverage
         run: pnpm test:coverage
       - name: Upload coverage to Codecov
@@ -146,10 +137,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Check types
         run: pnpm typecheck
 
@@ -165,10 +153,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Run Knip
         run: pnpm knip
 
@@ -184,10 +169,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Build packages
         run: pnpm build
       - name: Validate peer dependency contracts
@@ -209,10 +191,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
+        uses: ./.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@24.20.0
       - name: Build packages
         run: pnpm build
@@ -307,10 +287,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
+        uses: ./.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@${{ matrix.node }}
       - name: Install matrix ESLint
         run: >-
@@ -350,10 +328,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
+        uses: ./.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@24.15.0
       - name: Build package
         run: pnpm --filter @yarapa/${{ matrix.package }} build

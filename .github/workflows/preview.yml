@@ -27,10 +27,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          cache: true
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Build package
         run: pnpm build
       - name: Publish preview release

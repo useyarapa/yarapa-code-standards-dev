@@ -8,6 +8,7 @@ on:
       - ".changeset/**"
       - "packages/*/package.json"
       - ".github/workflows/release.yml"
+      - ".github/actions/setup-pnpm/action.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -31,9 +32,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          require-lockfile: true
+        uses: ./.github/actions/setup-pnpm
       - name: Select Changesets mode
         id: select
         uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51
@@ -53,9 +52,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
+        uses: ./.github/actions/setup-pnpm
         with:
-          require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
@@ -83,11 +81,9 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
-        with:
-          require-lockfile: true
-      - name: Build publishable packages
-        run: pnpm build
+        uses: ./.github/actions/setup-pnpm
+      - name: Verify release commit
+        run: pnpm verify
       - name: Pack publishable packages
         id: pack
         uses: changesets/action/pack@ae32849d5ba541f9ae29e40e22a623bc13562f51
@@ -111,9 +107,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024
+        uses: ./.github/actions/setup-pnpm
         with:
-          require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
