@@ -157,6 +157,22 @@ jobs:
       - name: Run Knip
         run: pnpm knip
 
+  audit:
+    name: Dependency Audit
+    needs: changes
+    if: needs.changes.outputs.full_verification == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: ./.github/actions/setup-pnpm
+      - name: Audit dependencies
+        run: pnpm audit
+
   package-validation:
     name: Package Validation
     needs: changes
@@ -413,6 +429,7 @@ jobs:
       - consumer-smoke
       - compatibility
       - knip
+      - audit
       - peer-compatibility
     runs-on: ubuntu-latest
     steps:

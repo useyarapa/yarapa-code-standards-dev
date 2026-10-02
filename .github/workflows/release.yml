@@ -97,6 +97,7 @@ jobs:
       - pack
     if: ${{ needs.select-mode.outputs.mode == 'publish' && needs.pack.result == 'success' }}
     runs-on: ubuntu-latest
+    environment: Release
     permissions:
       contents: write
       id-token: write
