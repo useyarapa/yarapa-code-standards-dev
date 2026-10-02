@@ -16,3 +16,8 @@ heavy:
   - "!**/*.png"
   - "!**/*.svg"
   - "!**/*.jpg"
+
+ci_policy:
+  - ".github/file-filters.yml"
+  - ".github/workflows/**"
+  - ".github/actions/**"

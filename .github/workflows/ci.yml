@@ -23,8 +23,8 @@ jobs:
       pull-requests: read
     outputs:
       heavy: ${{ steps.filter.outputs.heavy }}
-      ci_policy: ${{ steps.policy.outputs.ci_policy }}
-      full_verification: ${{ steps.filter.outputs.heavy == 'true' || steps.policy.outputs.ci_policy == 'true' }}
+      ci_policy: ${{ steps.filter.outputs.ci_policy }}
+      full_verification: ${{ steps.filter.outputs.heavy == 'true' || steps.filter.outputs.ci_policy == 'true' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -36,16 +36,6 @@ jobs:
         with:
           predicate-quantifier: some-with-excludes
           filters: .github/file-filters.yml
-      - name: Detect CI policy changes
-        id: policy
-        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d
-        with:
-          filters: |
-            ci_policy:
-              - '.github/file-filters.yml'
-              - '.github/workflows/**'
-              - '.github/actions/**'
-
   actionlint:
     name: Actionlint
     needs: changes
