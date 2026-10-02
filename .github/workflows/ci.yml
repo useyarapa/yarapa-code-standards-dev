@@ -338,7 +338,7 @@ jobs:
         with:
           runtime: node@24.15.0
       - name: Build package
-        run: pnpm --filter @yarapa/${{ matrix.package }} build
+        run: pnpm --filter "./packages/${{ matrix.package }}" build
       - name: Verify lower-bound peer compatibility
         shell: bash
         run: |
