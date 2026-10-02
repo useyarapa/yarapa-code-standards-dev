@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/useyarapa/yarapa-code-standards.git",
+    "url": "git+https://github.com/useyarapa/yarapa-code-standards-dev.git",
     "directory": "packages/prettier-config-yarapa"
   },
   "license": "MIT",
