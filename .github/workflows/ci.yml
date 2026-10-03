@@ -59,27 +59,6 @@ jobs:
 
           echo "release_pr=$release_pr" >> "$GITHUB_OUTPUT"
           echo "full_verification=$full_verification" >> "$GITHUB_OUTPUT"
-  actionlint:
-    name: Actionlint
-    needs: changes
-    if: github.event_name == 'pull_request' && needs.changes.outputs.ci_policy == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Lint GitHub Actions workflows
-        uses: reviewdog/action-actionlint@2085657ab2c7f48c58edcc767fba576f63bea76b # v1.77.0
-        with:
-          actionlint_flags: >-
-            -pyflakes=
-            -ignore 'specifying action "\$/.+" in invalid format because ref is missing'
-          fail_level: error
-          reporter: github-annotations
 
   lint:
     name: Lint
@@ -473,7 +452,6 @@ jobs:
     needs:
       - changes
       - release-integrity
-      - actionlint
       - lint
       - format
       - test

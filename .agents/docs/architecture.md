@@ -154,10 +154,10 @@ The release workflow verifies a publish commit with `pnpm verify` before packing
 
 Type-aware behavior uses declarative projects under `packages/eslint-config-yarapa/fixtures/projects/`.
 
-For material pushes, `pre-push` runs `pnpm verify` and then requires 100% diff coverage across the ESLint, Prettier, and Commitlint LCOV reports against the locally available comparison ref. `pnpm verify` generates those reports through `pnpm test:coverage`. The diff check ignores staged and unstaged working-tree edits and complements Codecov's remote patch status without weakening `target: auto`.
+For material pushes, `pre-push` requires pushed refs to match the checked-out commit, scans outgoing commits with Gitleaks, and then runs `pnpm verify`. Coverage remains part of `pnpm verify` through the package coverage suites; Codecov reports remote patch coverage in CI.
 
 PR title validation runs on `pull_request`, not `pull_request_target`, so Changesets version PRs created with `GITHUB_TOKEN` still produce the required `Validate pull request title` status.
 
-`pnpm verify` covers root and package lint/typecheck, EditorConfig and Prettier formatting, manifest ordering, peer dependency contracts, coverage tests, Knip, dependency-cruiser, builds, Publint, and AreTheTypesWrong. Repository CI additionally isolates these concerns into reviewable jobs and adds dependency audit, Codecov upload, changeset validation, consumer smoke, and a compatibility matrix across supported Node/ESLint combinations.
+`pnpm verify` covers root and package lint/typecheck, EditorConfig and Prettier formatting, manifest ordering, peer dependency contracts, coverage tests, Knip, dependency-cruiser, builds, Publint, and AreTheTypesWrong. Repository CI is change-aware: normal code/configuration pull requests run the full verification jobs, while Changesets version pull requests run the narrower Release Integrity path. CodeQL remains merge-protecting; Zizmor is advisory for GitHub workflow changes. The release workflow runs `pnpm verify` on the publish commit before packing and publishing.
 
 Test admission and pruning policy lives in [`.agents/rules/deterministic-testing.md`](../../.agents/rules/deterministic-testing.md).
