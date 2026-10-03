@@ -113,7 +113,7 @@ jobs:
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           disable_search: true
-          fail_ci_if_error: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          fail_ci_if_error: false
           use_oidc: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
           files: packages/eslint-config-yarapa/coverage/lcov.info,packages/prettier-config-yarapa/coverage/lcov.info,packages/commitlint-config-yarapa/coverage/lcov.info
 
