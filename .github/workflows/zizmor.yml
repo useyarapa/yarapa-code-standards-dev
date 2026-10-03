@@ -3,9 +3,13 @@ name: Zizmor
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - ".github/**"
   push:
     branches:
       - main
+    paths:
+      - ".github/**"
 
 permissions: {}
 
