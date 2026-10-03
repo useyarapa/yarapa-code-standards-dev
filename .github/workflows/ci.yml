@@ -123,7 +123,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      id-token: write
+      id-token: write # Needed for Codecov OIDC authentication on trusted runs.
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -324,10 +324,13 @@ jobs:
         with:
           runtime: node@${{ matrix.node }}
       - name: Install matrix ESLint
+        shell: bash
+        env:
+          ESLINT_VERSION: ${{ matrix.eslint }}
         run: >-
           pnpm --filter @yarapa/eslint-config-yarapa-imprement-demo
           add --save-dev --save-exact
-          eslint@${{ matrix.eslint }}
+          "eslint@$ESLINT_VERSION"
           --lockfile=false
           --ignore-scripts
       - name: Run package tests
@@ -365,25 +368,31 @@ jobs:
         with:
           runtime: node@24.15.0
       - name: Build package
-        run: pnpm --filter "./packages/${{ matrix.package }}" build
+        env:
+          PACKAGE_DIR: ./packages/${{ matrix.package }}
+        run: pnpm --filter "$PACKAGE_DIR" build
       - name: Verify lower-bound peer compatibility
         shell: bash
+        env:
+          PACKAGE_NAME: ${{ matrix.package }}
+          PEER_NAME: ${{ matrix.peer }}
+          PEER_VERSION: ${{ matrix.version }}
         run: |
           consumer_dir="$(mktemp -d)"
           mkdir -p "$consumer_dir/tarballs"
 
           (
-            cd "packages/${{ matrix.package }}"
+            cd "packages/$PACKAGE_NAME"
             pnpm pack --pack-destination "$consumer_dir/tarballs" >/dev/null
           )
 
           cd "$consumer_dir"
           npm init --yes >/dev/null
 
-          case "${{ matrix.peer }}" in
+          case "$PEER_NAME" in
             eslint)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                eslint@${{ matrix.version }} \
+                "eslint@$PEER_VERSION" \
                 typescript@6.0.3 \
                 ./tarballs/*.tgz
 
@@ -402,7 +411,7 @@ jobs:
               ;;
             prettier)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                prettier@${{ matrix.version }} \
+                "prettier@$PEER_VERSION" \
                 ./tarballs/*.tgz
 
               node --input-type=module <<'NODE'
@@ -422,7 +431,7 @@ jobs:
               ;;
             commitlint)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                @commitlint/cli@${{ matrix.version }} \
+                "@commitlint/cli@$PEER_VERSION" \
                 ./tarballs/*.tgz
 
               printf '%s\n' 'chore(test): validate consumer' | \
