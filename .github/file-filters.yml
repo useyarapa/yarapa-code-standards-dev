@@ -2,6 +2,8 @@ heavy:
   - "**"
   - "!**/*.md"
   - "!LICENSE"
+  - "!.gitignore"
+  - "!.gitattributes"
   - "!.changeset/**"
   - "!.github/ISSUE_TEMPLATE/**"
   - "!.github/pull_request_template.md"

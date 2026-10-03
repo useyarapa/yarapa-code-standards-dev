@@ -1,4 +1,4 @@
-import yarapaPlugin from "@yarapa/eslint-plugin-yarapa";
+import yarapaPlugin from "@yarapa/eslint-plugin-yarapa-imprement-demo";
 import type {Linter} from "eslint";
 
 import {JAVASCRIPT_AND_TYPESCRIPT_FILES, REACT_FILES} from "../globs";
