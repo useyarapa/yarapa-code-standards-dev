@@ -91,7 +91,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Check lint
         run: pnpm lint:check
 
@@ -107,7 +107,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Check formatting
         run: pnpm format:check
       - name: Check package.json ordering
@@ -129,7 +129,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Run tests with coverage
         run: pnpm test:coverage
       - name: Upload coverage to Codecov
@@ -152,7 +152,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Check types
         run: pnpm typecheck
 
@@ -168,7 +168,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Run Knip
         run: pnpm knip
 
@@ -184,7 +184,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Audit dependencies
         run: pnpm audit
 
@@ -200,7 +200,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Build packages
         run: pnpm build
       - name: Validate peer dependency contracts
@@ -222,7 +222,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
         with:
           runtime: node@24.20.0
       - name: Build packages
@@ -318,7 +318,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
         with:
           runtime: node@${{ matrix.node }}
       - name: Install matrix ESLint
@@ -359,7 +359,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
         with:
           runtime: node@24.15.0
       - name: Build package
@@ -441,7 +441,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: $/.github/actions/setup-pnpm
+        uses: ./.github/actions/setup-pnpm
       - name: Validate release metadata
         run: |
           pnpm format:check
