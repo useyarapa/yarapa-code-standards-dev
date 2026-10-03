@@ -24,7 +24,8 @@ jobs:
     outputs:
       heavy: ${{ steps.filter.outputs.heavy }}
       ci_policy: ${{ steps.filter.outputs.ci_policy }}
-      full_verification: ${{ steps.filter.outputs.heavy == 'true' || steps.filter.outputs.ci_policy == 'true' }}
+      release_pr: ${{ steps.mode.outputs.release_pr }}
+      full_verification: ${{ steps.mode.outputs.full_verification }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -36,10 +37,32 @@ jobs:
         with:
           predicate-quantifier: some-with-excludes
           filters: .github/file-filters.yml
+      - name: Select verification mode
+        id: mode
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          HEAVY: ${{ steps.filter.outputs.heavy }}
+          CI_POLICY: ${{ steps.filter.outputs.ci_policy }}
+        run: |
+          release_pr=false
+          if [[ "$EVENT_NAME" == "pull_request" && "$HEAD_REF" == "changeset-release/main" && "$PR_AUTHOR" == "github-actions[bot]" ]]; then
+            release_pr=true
+          fi
+
+          full_verification=false
+          if [[ "$EVENT_NAME" == "pull_request" && "$release_pr" != "true" && ( "$HEAVY" == "true" || "$CI_POLICY" == "true" ) ]]; then
+            full_verification=true
+          fi
+
+          echo "release_pr=$release_pr" >> "$GITHUB_OUTPUT"
+          echo "full_verification=$full_verification" >> "$GITHUB_OUTPUT"
   actionlint:
     name: Actionlint
     needs: changes
-    if: needs.changes.outputs.ci_policy == 'true'
+    if: github.event_name == 'pull_request' && needs.changes.outputs.ci_policy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -406,12 +429,39 @@ jobs:
               ;;
           esac
 
+  release-integrity:
+    name: Release Integrity
+    needs: changes
+    if: needs.changes.outputs.release_pr == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: ./.github/actions/setup-pnpm
+      - name: Validate release metadata
+        run: |
+          pnpm format:check
+          pnpm sort-package-json:check
+      - name: Build packages
+        run: pnpm build
+      - name: Validate peer dependency contracts
+        run: pnpm peers:check
+      - name: Validate package manifests and files
+        run: pnpm check:publint
+      - name: Validate package type resolution
+        run: pnpm check:attw
+
   ci:
     name: All Checks
     if: always()
     timeout-minutes: 5
     needs:
       - changes
+      - release-integrity
       - actionlint
       - lint
       - format
