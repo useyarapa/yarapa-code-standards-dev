@@ -98,6 +98,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      id-token: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -113,6 +114,7 @@ jobs:
         with:
           disable_search: true
           fail_ci_if_error: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+          use_oidc: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
           files: packages/eslint-config-yarapa/coverage/lcov.info,packages/prettier-config-yarapa/coverage/lcov.info,packages/commitlint-config-yarapa/coverage/lcov.info
 
   check-types:
