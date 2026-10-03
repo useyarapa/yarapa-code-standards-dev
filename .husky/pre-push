@@ -60,7 +60,8 @@ if [ "$workflow_changed" -eq 1 ]; then
     exit 1
   fi
 
-  actionlint -pyflakes=
+  actionlint -pyflakes= \
+    -ignore 'specifying action "\$/.+" in invalid format because ref is missing'
 fi
 
 pnpm verify
