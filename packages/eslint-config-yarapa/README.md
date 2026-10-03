@@ -1,10 +1,10 @@
 # @yarapa/eslint-config-yarapa-imprement-demo
 
-[![npm version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
-[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Feslint-config-yarapa.svg)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
+[![npm version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa-imprement-demo.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
+[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Feslint-config-yarapa-imprement-demo.svg)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo)
 [![codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards/branch/main)
 [![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
-[![license](https://img.shields.io/npm/l/%40yarapa%2Feslint-config-yarapa.svg)](../../LICENSE)
+[![license](https://img.shields.io/npm/l/%40yarapa%2Feslint-config-yarapa-imprement-demo.svg)](../../LICENSE)
 
 Strict ESLint Flat Config for Yarapa JavaScript and TypeScript projects.
 

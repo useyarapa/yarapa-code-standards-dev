@@ -16,7 +16,9 @@ permissions: {}
 jobs:
   publish:
     name: Publish Preview
-    if: contains(github.event.pull_request.labels.*.name, 'preview')
+    if: >-
+      contains(github.event.pull_request.labels.*.name, 'preview') &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
