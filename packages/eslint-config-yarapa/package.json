@@ -1,5 +1,5 @@
 {
-  "name": "@yarapa/eslint-config-yarapa",
+  "name": "@yarapa/eslint-config-yarapa-imprement-demo",
   "version": "0.0.0",
   "description": "Strict, type-aware ESLint Flat Config for JavaScript, TypeScript, React, Next.js, and Node.js.",
   "keywords": [
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/useyarapa/yarapa-code-standards.git",
+    "url": "git+https://github.com/useyarapa/yarapa-code-standards-dev.git",
     "directory": "packages/eslint-config-yarapa"
   },
   "license": "MIT",
@@ -44,13 +44,8 @@
     "clean:dist": "rimraf dist",
     "clean:test": "rimraf coverage",
     "dev": "tsdown --watch",
-    "format": "prettier --write --cache .",
-    "format:check": "prettier --check --cache .",
-    "inspect": "pnpm build && eslint-config-inspector",
     "lint": "eslint . --fix --cache --max-warnings=0",
     "lint:check": "eslint . --cache --max-warnings=0",
-    "sort-package-json": "sort-package-json package.json",
-    "sort-package-json:check": "sort-package-json --check package.json",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -60,9 +55,9 @@
     "@eslint-community/eslint-plugin-eslint-comments": "4.8.1",
     "@eslint-react/eslint-plugin": "5.23.3",
     "@eslint/markdown": "8.0.3",
+    "@next-friday/eslint-plugin-friday": "1.0.0",
     "@stylistic/eslint-plugin": "5.10.0",
     "@vitest/eslint-plugin": "1.6.27",
-    "@yarapa/eslint-plugin-yarapa": "2.0.0",
     "eslint-import-resolver-typescript": "4.4.5",
     "eslint-plugin-antfu": "3.2.3",
     "eslint-plugin-import-x": "4.17.1",

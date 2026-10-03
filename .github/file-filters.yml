@@ -2,6 +2,8 @@ heavy:
   - "**"
   - "!**/*.md"
   - "!LICENSE"
+  - "!.gitignore"
+  - "!.gitattributes"
   - "!.changeset/**"
   - "!.github/ISSUE_TEMPLATE/**"
   - "!.github/pull_request_template.md"
@@ -17,13 +19,7 @@ heavy:
   - "!**/*.svg"
   - "!**/*.jpg"
 
-workflow:
+ci_policy:
+  - ".github/file-filters.yml"
   - ".github/workflows/**"
-
-changeset:
-  - ".changeset/**"
-
-release:
-  - ".changeset/**"
-  - "packages/*/package.json"
-  - ".github/workflows/release.yml"
+  - ".github/actions/**"

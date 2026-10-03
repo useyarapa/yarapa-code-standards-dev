@@ -17,8 +17,8 @@ jobs:
   publish:
     name: Publish Preview
     if: >-
-      github.repository == 'useyarapa/yarapa-code-standards' &&
-      contains(github.event.pull_request.labels.*.name, 'preview')
+      contains(github.event.pull_request.labels.*.name, 'preview') &&
+      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -29,17 +29,16 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Build package
         run: pnpm build
       - name: Publish preview release
-        run: >-
+        run: >- # zizmor: ignore[use-trusted-publishing] pkg.pr.new preview
           pnpm exec pkg-pr-new publish
           --pnpm
           --previewVersion
+          --commentWithDev
+          --commentWithSha
           --packageManager=pnpm,npm,yarn
           ./packages/eslint-config-yarapa
           ./packages/prettier-config-yarapa

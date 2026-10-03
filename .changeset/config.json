@@ -5,9 +5,9 @@
   "baseBranch": "main",
   "fixed": [
     [
-      "@yarapa/commitlint-config-yarapa",
-      "@yarapa/eslint-config-yarapa",
-      "@yarapa/prettier-config-yarapa"
+      "@yarapa/commitlint-config-yarapa-imprement-demo",
+      "@yarapa/eslint-config-yarapa-imprement-demo",
+      "@yarapa/prettier-config-yarapa-imprement-demo"
     ]
   ],
   "updateInternalDependencies": "patch",

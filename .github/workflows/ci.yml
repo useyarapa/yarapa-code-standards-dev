@@ -20,14 +20,12 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: read # Needed by paths-filter to inspect pull request changes.
     outputs:
       heavy: ${{ steps.filter.outputs.heavy }}
-      workflow: ${{ steps.filter.outputs.workflow }}
-      ci_policy: ${{ steps.policy.outputs.ci_policy }}
-      full_verification: ${{ steps.filter.outputs.heavy == 'true' || steps.policy.outputs.ci_policy == 'true' }}
-      changeset: ${{ steps.filter.outputs.changeset }}
-      release: ${{ steps.filter.outputs.release }}
+      ci_policy: ${{ steps.filter.outputs.ci_policy }}
+      release_pr: ${{ steps.mode.outputs.release_pr }}
+      full_verification: ${{ steps.mode.outputs.full_verification }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -39,54 +37,28 @@ jobs:
         with:
           predicate-quantifier: some-with-excludes
           filters: .github/file-filters.yml
-      - name: Detect CI policy changes
-        id: policy
-        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
-        with:
-          filters: |
-            ci_policy:
-              - '.github/file-filters.yml'
-              - '.github/workflows/**'
-              - '.github/actions/**'
+      - name: Select verification mode
+        id: mode
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          HEAVY: ${{ steps.filter.outputs.heavy }}
+          CI_POLICY: ${{ steps.filter.outputs.ci_policy }}
+        run: |
+          release_pr=false
+          if [[ "$EVENT_NAME" == "pull_request" && "$HEAD_REF" == "changeset-release/main" && "$PR_AUTHOR" == "github-actions[bot]" ]]; then
+            release_pr=true
+          fi
 
-  actionlint:
-    name: Actionlint
-    needs: changes
-    if: needs.changes.outputs.workflow == 'true' || needs.changes.outputs.ci_policy == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Lint GitHub Actions workflows
-        uses: reviewdog/action-actionlint@2085657ab2c7f48c58edcc767fba576f63bea76b # v1.77.0
-        with:
-          actionlint_flags: -pyflakes=
-          fail_level: error
-          reporter: github-annotations
+          full_verification=false
+          if [[ "$EVENT_NAME" == "push" || ( "$EVENT_NAME" == "pull_request" && "$release_pr" != "true" && ( "$HEAVY" == "true" || "$CI_POLICY" == "true" ) ) ]]; then
+            full_verification=true
+          fi
 
-  audit:
-    name: Dependency Audit
-    needs: changes
-    if: needs.changes.outputs.full_verification == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
-      - name: Audit dependencies
-        run: pnpm audit
+          echo "release_pr=$release_pr" >> "$GITHUB_OUTPUT"
+          echo "full_verification=$full_verification" >> "$GITHUB_OUTPUT"
 
   lint:
     name: Lint
@@ -100,10 +72,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Check lint
         run: pnpm lint:check
 
@@ -119,15 +88,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
-      - name: Build packages
-        run: pnpm build
+        uses: $/.github/actions/setup-pnpm
       - name: Check formatting
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         run: pnpm format:check
       - name: Check package.json ordering
         run: pnpm sort-package-json:check
@@ -140,6 +102,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+      id-token: write # Needed for Codecov OIDC authentication on trusted runs.
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -147,77 +110,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Run tests with coverage
         run: pnpm test:coverage
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: coverage-reports
-          path: |
-            packages/eslint-config-yarapa/coverage/lcov.info
-            packages/prettier-config-yarapa/coverage/lcov.info
-            packages/commitlint-config-yarapa/coverage/lcov.info
-          if-no-files-found: error
-          retention-days: 1
-
-  upload-coverage:
-    name: Upload Coverage (Trusted)
-    needs: test
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      actions: read
-      contents: read
-      id-token: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Download coverage reports
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: coverage-reports
-          path: packages
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
-        with:
-          disable_search: true
-          fail_ci_if_error: true
-          files: packages/eslint-config-yarapa/coverage/lcov.info,packages/prettier-config-yarapa/coverage/lcov.info,packages/commitlint-config-yarapa/coverage/lcov.info
-          use_oidc: true
-
-  upload-coverage-fork:
-    name: Upload Coverage (Fork)
-    needs: test
-    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      actions: read
-      contents: read
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Download coverage reports
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: coverage-reports
-          path: packages
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           disable_search: true
           fail_ci_if_error: false
+          use_oidc: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
           files: packages/eslint-config-yarapa/coverage/lcov.info,packages/prettier-config-yarapa/coverage/lcov.info,packages/commitlint-config-yarapa/coverage/lcov.info
-          use_oidc: false
 
   check-types:
     name: Type Check
@@ -231,10 +133,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Check types
         run: pnpm typecheck
 
@@ -250,15 +149,12 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Run Knip
         run: pnpm knip
 
-  dependency-architecture:
-    name: Dependency Architecture
+  audit:
+    name: Dependency Audit
     needs: changes
     if: needs.changes.outputs.full_verification == 'true'
     runs-on: ubuntu-latest
@@ -269,31 +165,9 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
-      - name: Validate dependency architecture
-        run: pnpm depcruise
-
-  build:
-    name: Build
-    needs: changes
-    if: needs.changes.outputs.full_verification == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
-      - name: Build package
-        run: pnpm build
+        uses: $/.github/actions/setup-pnpm
+      - name: Audit dependencies
+        run: pnpm audit
 
   package-validation:
     name: Package Validation
@@ -307,10 +181,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Build packages
         run: pnpm build
       - name: Validate peer dependency contracts
@@ -332,16 +203,14 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: $/.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@24.20.0
       - name: Build packages
         run: pnpm build
       - name: Verify packed packages in a clean npm consumer
         shell: bash
-        run: |
+        run: | # zizmor: ignore[adhoc-packages] isolated consumer install
           consumer_dir="$(mktemp -d)"
           mkdir -p "$consumer_dir/tarballs"
 
@@ -369,9 +238,9 @@ jobs:
           import assert from "node:assert/strict";
           import {ESLint} from "eslint";
           import prettier from "prettier";
-          import yarapa from "@yarapa/eslint-config-yarapa";
-          import prettierConfig from "@yarapa/prettier-config-yarapa";
-          import commitlintConfig from "@yarapa/commitlint-config-yarapa";
+          import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
+          import prettierConfig from "@yarapa/prettier-config-yarapa-imprement-demo";
+          import commitlintConfig from "@yarapa/commitlint-config-yarapa-imprement-demo";
 
           const eslint = new ESLint({
             overrideConfigFile: true,
@@ -400,35 +269,7 @@ jobs:
 
           printf '%s\n' 'chore(test): validate consumer' | \
             npx --no-install commitlint \
-              --config node_modules/@yarapa/commitlint-config-yarapa/dist/index.mjs
-
-  changeset:
-    name: Release Readiness
-    needs: changes
-    if: needs.changes.outputs.release == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
-          install: false
-      - name: Install workspace dependencies without lifecycle scripts
-        run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Build Prettier config
-        run: pnpm --filter @yarapa/prettier-config-yarapa build
-      - name: Validate changesets
-        if: needs.changes.outputs.changeset == 'true'
-        run: pnpm changeset status --since origin/main
-      - name: Verify versioning
-        run: pnpm changeset version
+              --config node_modules/@yarapa/commitlint-config-yarapa-imprement-demo/dist/index.mjs
 
   compatibility:
     name: Compatibility (${{ matrix.os }}, Node ${{ matrix.node }}, ESLint ${{ matrix.eslint }})
@@ -458,22 +299,23 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: $/.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@${{ matrix.node }}
       - name: Install matrix ESLint
-        run: >-
-          pnpm --filter @yarapa/eslint-config-yarapa
+        shell: bash
+        env:
+          ESLINT_VERSION: ${{ matrix.eslint }}
+        run: >- # zizmor: ignore[adhoc-packages] compatibility matrix
+          pnpm --filter @yarapa/eslint-config-yarapa-imprement-demo
           add --save-dev --save-exact
-          eslint@${{ matrix.eslint }}
+          "eslint@$ESLINT_VERSION"
           --lockfile=false
           --ignore-scripts
       - name: Run package tests
         run: >-
           pnpm --config.verify-deps-before-run=false
-          --filter @yarapa/eslint-config-yarapa
+          --filter @yarapa/eslint-config-yarapa-imprement-demo
           test
 
   peer-compatibility:
@@ -501,38 +343,42 @@ jobs:
         with:
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: $/.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           runtime: node@24.15.0
       - name: Build package
-        run: pnpm --filter @yarapa/${{ matrix.package }} build
+        env:
+          PACKAGE_DIR: ./packages/${{ matrix.package }}
+        run: pnpm --filter "$PACKAGE_DIR" build
       - name: Verify lower-bound peer compatibility
         shell: bash
-        run: |
+        env:
+          PACKAGE_NAME: ${{ matrix.package }}
+          PEER_NAME: ${{ matrix.peer }}
+          PEER_VERSION: ${{ matrix.version }}
+        run: | # zizmor: ignore[adhoc-packages] isolated peer consumer install
           consumer_dir="$(mktemp -d)"
           mkdir -p "$consumer_dir/tarballs"
 
           (
-            cd "packages/${{ matrix.package }}"
+            cd "packages/$PACKAGE_NAME"
             pnpm pack --pack-destination "$consumer_dir/tarballs" >/dev/null
           )
 
           cd "$consumer_dir"
           npm init --yes >/dev/null
 
-          case "${{ matrix.peer }}" in
+          case "$PEER_NAME" in
             eslint)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                eslint@${{ matrix.version }} \
+                "eslint@$PEER_VERSION" \
                 typescript@6.0.3 \
                 ./tarballs/*.tgz
 
               node --input-type=module <<'NODE'
           import assert from "node:assert/strict";
           import {ESLint} from "eslint";
-          import yarapa from "@yarapa/eslint-config-yarapa";
+          import yarapa from "@yarapa/eslint-config-yarapa-imprement-demo";
 
           const eslint = new ESLint({
             overrideConfigFile: true,
@@ -544,13 +390,13 @@ jobs:
               ;;
             prettier)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                prettier@${{ matrix.version }} \
+                "prettier@$PEER_VERSION" \
                 ./tarballs/*.tgz
 
               node --input-type=module <<'NODE'
           import assert from "node:assert/strict";
           import prettier from "prettier";
-          import config from "@yarapa/prettier-config-yarapa";
+          import config from "@yarapa/prettier-config-yarapa-imprement-demo";
 
           const formatted = await prettier.format(
             '#!/usr/bin/env sh\nif [ "$value" = "1" ]; then\n\techo yes\nfi\n',
@@ -564,14 +410,40 @@ jobs:
               ;;
             commitlint)
               npm install --ignore-scripts --no-audit --no-fund --save-exact \
-                @commitlint/cli@${{ matrix.version }} \
+                "@commitlint/cli@$PEER_VERSION" \
                 ./tarballs/*.tgz
 
               printf '%s\n' 'chore(test): validate consumer' | \
                 npx --no-install commitlint \
-                  --config node_modules/@yarapa/commitlint-config-yarapa/dist/index.mjs
+                  --config node_modules/@yarapa/commitlint-config-yarapa-imprement-demo/dist/index.mjs
               ;;
           esac
+
+  release-integrity:
+    name: Release Integrity
+    needs: changes
+    if: needs.changes.outputs.release_pr == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Set up pnpm
+        uses: $/.github/actions/setup-pnpm
+      - name: Validate release metadata
+        run: |
+          pnpm format:check
+          pnpm sort-package-json:check
+      - name: Build packages
+        run: pnpm build
+      - name: Validate peer dependency contracts
+        run: pnpm peers:check
+      - name: Validate package manifests and files
+        run: pnpm check:publint
+      - name: Validate package type resolution
+        run: pnpm check:attw
 
   ci:
     name: All Checks
@@ -579,22 +451,17 @@ jobs:
     timeout-minutes: 5
     needs:
       - changes
-      - actionlint
-      - audit
+      - release-integrity
       - lint
       - format
       - test
       - check-types
-      - build
       - package-validation
       - consumer-smoke
-      - changeset
       - compatibility
       - knip
-      - dependency-architecture
+      - audit
       - peer-compatibility
-      - upload-coverage
-      - upload-coverage-fork
     runs-on: ubuntu-latest
     steps:
       - name: Require all verification jobs

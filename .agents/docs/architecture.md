@@ -4,7 +4,7 @@ Workspace topology, ESLint composition, evaluation order, policy ownership, pack
 
 ## Repository Topology
 
-A public repository with a private root pnpm workspace, orchestrated by Turborepo, that publishes three public packages.
+A public repository with a private root pnpm workspace, orchestrated by Turborepo, containing three packages.
 
 ```text
 .
@@ -47,7 +47,7 @@ A public repository with a private root pnpm workspace, orchestrated by Turborep
 
 1. `packages/*/src/` is the source for package behavior.
 2. `tsdown` builds package entrypoints into generated `dist/` outputs.
-3. Root `eslint.config.ts` imports `@yarapa/eslint-config-yarapa` from the workspace build. Turbo makes root lint depend on the ESLint package build.
+3. Root `eslint.config.ts` imports `@yarapa/eslint-config-yarapa-imprement-demo` from the workspace build. Turbo makes root lint depend on the ESLint package build.
 4. Root lint is not byte-for-byte identical to a consumer calling `yarapa()`: the root config also adds repository-only global ignores and a root-only rule override for `.dependency-cruiser.ts`.
 
 ## ESLint Policy Ownership
@@ -126,11 +126,11 @@ The private `src/configs/index.ts` barrel is intentional and is not a consumer-f
 - `.` → `dist/index.mjs` with `dist/index.d.mts` types
 - `./package.json` → package metadata
 
-The package `files` list ships `dist/`; npm also includes the package manifest. Internal source modules are not supported consumer entrypoints.
+The package `files` list includes `dist/`; npm also includes the package manifest when the package is published. Internal source modules are not supported consumer entrypoints.
 
 ## Build and Distribution
 
-All three packages build with `tsdown` and publish ESM output under `dist/`.
+All three packages build ESM output under `dist/` with `tsdown`. That output is the distribution payload for publication.
 
 ```mermaid
 graph TD
@@ -148,16 +148,16 @@ The release workflow verifies a publish commit with `pnpm verify` before packing
 | :-------------------------- | :------------------------ | :-------------------------------------------------------------- |
 | **Behavior tests**          | `test/behavior/`          | Observable diagnostics and selected policy behavior             |
 | **Configuration tests**     | `test/configuration/`     | Selected composition, context, naming, and ownership invariants |
-| **Public API tests**        | `test/public-api/`        | Published export shape                                          |
+| **Public API tests**        | `test/public-api/`        | Public export shape                                             |
 | **Config-validation tests** | `test/config-validation/` | Parser/project-service resolution against fixture projects      |
 | **Autofix tests**           | `test/autofix/`           | Fix behavior and idempotence                                    |
 
 Type-aware behavior uses declarative projects under `packages/eslint-config-yarapa/fixtures/projects/`.
 
-For material pushes, `pre-push` runs `pnpm verify` and then requires 100% diff coverage across the ESLint, Prettier, and Commitlint LCOV reports against the locally available comparison ref. `pnpm verify` generates those reports through `pnpm test:coverage`. The diff check ignores staged and unstaged working-tree edits and complements Codecov's remote patch status without weakening `target: auto`.
+For material pushes, `pre-push` requires pushed refs to match the checked-out commit, scans outgoing commits with Gitleaks, and then runs `pnpm verify`. Coverage remains part of `pnpm verify` through the package coverage suites; Codecov reports remote patch coverage in CI.
 
 PR title validation runs on `pull_request`, not `pull_request_target`, so Changesets version PRs created with `GITHUB_TOKEN` still produce the required `Validate pull request title` status.
 
-`pnpm verify` covers root and package lint/typecheck, EditorConfig and Prettier formatting, manifest ordering, peer dependency contracts, coverage tests, Knip, dependency-cruiser, builds, Publint, and AreTheTypesWrong. Repository CI additionally isolates these concerns into reviewable jobs and adds dependency audit, Codecov upload, changeset validation, consumer smoke, and a compatibility matrix across supported Node/ESLint combinations.
+`pnpm verify` covers root and package lint/typecheck, EditorConfig and Prettier formatting, manifest ordering, peer dependency contracts, coverage tests, Knip, dependency-cruiser, builds, Publint, and AreTheTypesWrong. Repository CI is change-aware: normal code/configuration pull requests run the full verification jobs, while Changesets version pull requests run the narrower Release Integrity path. CodeQL remains merge-protecting; Zizmor is advisory for GitHub workflow changes. The release workflow runs `pnpm verify` on the publish commit before packing and publishing.
 
 Test admission and pruning policy lives in [`.agents/rules/deterministic-testing.md`](../../.agents/rules/deterministic-testing.md).

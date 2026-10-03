@@ -1,20 +1,20 @@
-import yarapaPlugin from "@yarapa/eslint-plugin-yarapa";
+import fridayPlugin from "@next-friday/eslint-plugin-friday";
 import type {Linter} from "eslint";
 
 import {JAVASCRIPT_AND_TYPESCRIPT_FILES, REACT_FILES} from "../globs";
 
-const yarapaRules: Linter.RulesRecord = {
-  "yarapa/index-export-only": "error",
-  "yarapa/no-lazy-identifiers": "error",
-  "yarapa/object-curly-newline": "error",
+const fridayRules: Linter.RulesRecord = {
+  "friday/index-export-only": "error",
+  "friday/no-lazy-identifiers": "error",
+  "friday/object-curly-newline": "error",
 };
 
-const yarapaReactRules: Linter.RulesRecord = {
-  "yarapa/component-module": "error",
-  "yarapa/jsx-newline-between-elements": "error",
-  "yarapa/jsx-no-newline-single-line-elements": "error",
-  "yarapa/named-props": "error",
-  "yarapa/props-in-body": "error",
+const fridayReactRules: Linter.RulesRecord = {
+  "friday/component-module": "error",
+  "friday/jsx-newline-between-elements": "error",
+  "friday/jsx-no-newline-single-line-elements": "error",
+  "friday/named-props": "error",
+  "friday/props-in-body": "error",
 };
 
 export const yarapa: Linter.Config[] = [
@@ -22,9 +22,9 @@ export const yarapa: Linter.Config[] = [
     files: JAVASCRIPT_AND_TYPESCRIPT_FILES,
     name: "yarapa",
     plugins: {
-      yarapa: yarapaPlugin,
+      friday: fridayPlugin,
     },
-    rules: yarapaRules,
+    rules: fridayRules,
   },
 ];
 
@@ -33,8 +33,8 @@ export const yarapaReact: Linter.Config[] = [
     files: REACT_FILES,
     name: "yarapa/yarapa-react",
     plugins: {
-      yarapa: yarapaPlugin,
+      friday: fridayPlugin,
     },
-    rules: yarapaReactRules,
+    rules: fridayReactRules,
   },
 ];

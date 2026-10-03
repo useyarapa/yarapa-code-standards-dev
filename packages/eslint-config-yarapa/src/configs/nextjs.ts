@@ -43,7 +43,7 @@ export const nextjs: Linter.Config[] = [
     files: NEXTJS_APP_COMPONENT_FILES,
     name: "yarapa/nextjs/app-component-module",
     rules: {
-      "yarapa/component-module": [
+      "friday/component-module": [
         "error",
         {
           allowDeclarations: NEXTJS_APP_EXPORTS,
@@ -55,7 +55,7 @@ export const nextjs: Linter.Config[] = [
     files: NEXTJS_PAGE_COMPONENT_FILES,
     name: "yarapa/nextjs/pages-component-module",
     rules: {
-      "yarapa/component-module": [
+      "friday/component-module": [
         "error",
         {
           allowDeclarations: NEXTJS_PAGE_EXPORTS,

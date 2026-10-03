@@ -1,29 +1,27 @@
-# Security Policy
+# Security policy
 
-## Supported Versions
+## Supported versions
 
-Before the first public release, security fixes apply to the current unreleased package sources on the default development line.
+All three publishable packages are currently unreleased at `0.0.0`. Security fixes apply to the current sources on the default development line.
 
-After publication, only the latest published release of each package receives security updates. Earlier releases and pre-release versions are not supported.
+After the First Release, only the latest published release of each package receives security updates. Earlier releases and prerelease versions are not supported.
 
-| Package                            | Current / latest release | Earlier releases |
-| ---------------------------------- | ------------------------ | ---------------- |
-| `@yarapa/eslint-config-yarapa`     | Supported                | Not supported    |
-| `@yarapa/prettier-config-yarapa`   | Supported                | Not supported    |
-| `@yarapa/commitlint-config-yarapa` | Supported                | Not supported    |
+| Package                                           | Current state        |
+| :------------------------------------------------ | :------------------- |
+| `@yarapa/eslint-config-yarapa-imprement-demo`     | `0.0.0` (unreleased) |
+| `@yarapa/prettier-config-yarapa-imprement-demo`   | `0.0.0` (unreleased) |
+| `@yarapa/commitlint-config-yarapa-imprement-demo` | `0.0.0` (unreleased) |
 
-## Reporting a Vulnerability
+## Report a vulnerability
 
-Do not report security vulnerabilities through public GitHub issues.
+Do not report security vulnerabilities in public GitHub issues.
 
-### Reporting Process
+1. Use [GitHub Private Vulnerability Reporting](https://github.com/useyarapa/yarapa-code-standards-dev/security/advisories/new).
+2. Or email `security@yarapa.com`.
+3. Include reproduction steps, the affected package version or commit, relevant configuration, and environment details. Remove secrets and private data.
 
-1. Report security issues through [GitHub Private Vulnerability Reporting](https://github.com/useyarapa/yarapa-code-standards/security/advisories/new).
-2. Alternatively, email the maintainers at `security@yarapa.com`.
-3. Include reproduction steps, relevant configuration snippets, affected package/version or commit, and environment details.
+### Response targets
 
-### Response Timeline
-
-- **Acknowledgment**: Within 48 hours of report submission.
-- **Assessment**: Within 5 business days, including confirmation of severity and impact.
-- **Fix and Advisory**: Critical issues will be patched and published as promptly as possible when a release is applicable, accompanied by a GitHub Security Advisory.
+- **Acknowledgment:** Within 48 hours.
+- **Assessment:** Within 5 business days, including severity and impact.
+- **Fix and advisory:** For critical issues, publish a fix and GitHub Security Advisory as soon as practical when a release applies.

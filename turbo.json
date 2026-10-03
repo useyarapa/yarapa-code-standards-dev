@@ -24,10 +24,10 @@
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["@yarapa/eslint-config-yarapa#build", "build"]
+      "dependsOn": ["@yarapa/eslint-config-yarapa-imprement-demo#build", "build"]
     },
     "lint:check": {
-      "dependsOn": ["@yarapa/eslint-config-yarapa#build", "build"]
+      "dependsOn": ["@yarapa/eslint-config-yarapa-imprement-demo#build", "build"]
     },
     "test": {},
     "test:coverage": {

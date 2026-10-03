@@ -23,7 +23,7 @@
 - **Root lint**: `eslint.config.ts` consumes the built ESLint package. Turbo makes root lint depend on package build.
 - **Shared ESLint patterns**: Keep cross-cutting extensions and file globs in `packages/eslint-config-yarapa/src/globs.ts`.
 - **Explicit ESLint policy**: Yarapa config modules own the policy surface (see [CONTEXT.md](CONTEXT.md)). Upstream presets are references, never policy authority; a dependency update must not silently enable a new rule.
-- **Plugin-first implementation**: Use an existing maintained plugin rule when it correctly enforces a requirement. Yarapa-specific rule implementations belong in the standalone `@yarapa/eslint-plugin-yarapa` package; this repository owns only their enablement, severity, options, and file scopes.
+- **Plugin-first implementation**: Use an existing maintained plugin rule when it correctly enforces a requirement. Shared custom rule implementations belong in the canonical `@next-friday/eslint-plugin-friday` package; this repository owns only their enablement, severity, options, and file scopes.
 - **Policy Changes**: Newly enabled rules, stricter severities/options, and wider lint scope are breaking consumer changes under the ESLint package versioning policy.
 - **Architecture**: For package topology, ESLint composition, evaluation order, policy ownership, or distribution, read [`.agents/docs/architecture.md`](.agents/docs/architecture.md). Review [`.agents/adr/`](.agents/adr/) before recording a durable architecture decision.
 - **Shared vocabulary**: Read [CONTEXT.md](CONTEXT.md) when defining or changing terms, or when wording standards or policy for consumers.

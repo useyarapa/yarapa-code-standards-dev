@@ -15,7 +15,7 @@ describe("React config ownership", () => {
     {
       config: yarapaReact,
       name: "Yarapa React policy",
-      plugins: ["yarapa"],
+      plugins: ["friday"],
     },
     {
       config: jsxA11y,

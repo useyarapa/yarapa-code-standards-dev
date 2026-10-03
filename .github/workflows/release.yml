@@ -8,6 +8,7 @@ on:
       - ".changeset/**"
       - "packages/*/package.json"
       - ".github/workflows/release.yml"
+      - ".github/actions/setup-pnpm/action.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -31,10 +32,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Select Changesets mode
         id: select
         uses: changesets/action/select-mode@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
@@ -45,8 +43,8 @@ jobs:
     if: ${{ needs.select-mode.outputs.mode == 'version' }}
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # Needed by Changesets to create and update the version branch.
+      pull-requests: write # Needed by Changesets to create and update the version pull request.
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -54,15 +52,13 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: $/.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
       - name: Build Prettier config
-        run: pnpm --filter @yarapa/prettier-config-yarapa build
+        run: pnpm --filter @yarapa/prettier-config-yarapa-imprement-demo build
       - name: Create or update Version Packages PR
         uses: changesets/action/version@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
         with:
@@ -85,13 +81,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
-        with:
-          cache: true
-          require-lockfile: true
+        uses: $/.github/actions/setup-pnpm
       - name: Verify release commit
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
         run: pnpm verify
       - name: Pack publishable packages
         id: pack
@@ -106,9 +97,10 @@ jobs:
       - pack
     if: ${{ needs.select-mode.outputs.mode == 'publish' && needs.pack.result == 'success' }}
     runs-on: ubuntu-latest
+    environment: Release
     permissions:
-      contents: write
-      id-token: write
+      contents: write # Needed by Changesets to create the GitHub releases.
+      id-token: write # Needed for npm trusted publishing.
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -116,14 +108,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Set up pnpm
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+        uses: $/.github/actions/setup-pnpm
         with:
-          cache: true
-          require-lockfile: true
           install: false
       - name: Install workspace dependencies without lifecycle scripts
         run: pnpm install --frozen-lockfile --ignore-scripts
-      - name: Configure npm registry for OIDC publishing
+      - name: Configure npm registry for bootstrap publishing
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version-file: .nvmrc
