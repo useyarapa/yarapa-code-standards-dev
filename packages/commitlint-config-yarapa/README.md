@@ -1,6 +1,6 @@
 # @yarapa/commitlint-config-yarapa-imprement-demo
 
-[![CI](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main) [![License](https://img.shields.io/github/license/useyarapa/yarapa-code-standards-dev.svg)](../../LICENSE)
+[![npm version](https://img.shields.io/npm/v/%40yarapa%2Fcommitlint-config-yarapa-imprement-demo.svg)](https://www.npmjs.com/package/@yarapa/commitlint-config-yarapa-imprement-demo) [![CI](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main) [![License](https://img.shields.io/github/license/useyarapa/yarapa-code-standards-dev.svg)](../../LICENSE)
 
 One strict Conventional Commit contract that keeps repository history predictable, machine-readable, and automation-friendly.
 

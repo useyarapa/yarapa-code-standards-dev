@@ -1,6 +1,6 @@
 # @yarapa/eslint-config-yarapa-imprement-demo
 
-[![CI](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main) [![License](https://img.shields.io/github/license/useyarapa/yarapa-code-standards-dev.svg)](../../LICENSE)
+[![npm version](https://img.shields.io/npm/v/%40yarapa%2Feslint-config-yarapa-imprement-demo.svg)](https://www.npmjs.com/package/@yarapa/eslint-config-yarapa-imprement-demo) [![CI](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main) [![License](https://img.shields.io/github/license/useyarapa/yarapa-code-standards-dev.svg)](../../LICENSE)
 
 One strict Flat Config for Node.js, TypeScript, React, Next.js, tests, and structured data—with runtime and framework context explicit instead of inferred.
 
