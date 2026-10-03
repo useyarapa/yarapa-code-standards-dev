@@ -292,7 +292,7 @@ importers:
       '@vitest/eslint-plugin':
         specifier: 1.6.27
         version: 1.6.27(@typescript-eslint/eslint-plugin@8.70.1(@typescript-eslint/parser@8.71.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)(vitest@5.0.3)
-      '@yarapa/eslint-plugin-yarapa-imprement-demo':
+      '@next-friday/eslint-plugin-friday':
         specifier: 1.0.0
         version: 1.0.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint-import-resolver-typescript:
@@ -1804,8 +1804,8 @@ packages:
   '@vitest/spy@5.0.3':
     resolution: {integrity: sha512-XhFysQTB8AZ+P4gMi+Lpo99vg2AZi0qKpaB9yXQl37+CaMEAPO3iH/wGVnSyL5MPERiLezpqTVtrR6UZH5GCXg==}
 
-  '@yarapa/eslint-plugin-yarapa-imprement-demo@1.0.0':
-    resolution: {integrity: sha512-Ulu9eq/JwVd1CsyvVpem/zMr3nYjCEUOO4fpf3QCGd3JhgAFyAFRJbWI/FSOAfDZtRuersKH80L9SZbpREABVA==}
+  '@next-friday/eslint-plugin-friday@1.0.0':
+    resolution: {integrity: sha512-7N1r1GOZic9RE9YLzRW4Q3j6COefjF4C29PnFfp03aOUzu/plcf0KNZO5D5w3OzJxDe5z40hw5uzxTyaYrDwVw==}
     engines: {node: ^22.13.0 || >=24.0.0}
     peerDependencies:
       eslint: ^10.4.0
@@ -6016,7 +6016,7 @@ snapshots:
 
   '@vitest/spy@5.0.3': {}
 
-  '@yarapa/eslint-plugin-yarapa-imprement-demo@1.0.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)':
+  '@next-friday/eslint-plugin-friday@1.0.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)':
     dependencies:
       '@eslint-react/core': 5.21.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       eslint: 10.11.0(jiti@2.7.0)(supports-color@7.2.0)

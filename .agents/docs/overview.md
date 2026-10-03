@@ -36,7 +36,7 @@ Consumer usage and compatibility live in the package READMEs. This document desc
 | :------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Explicit ESLint policy**            | Enabled diagnostic rules, severities, options, and scopes are selected in Yarapa source rather than inherited from upstream plugin presets. |
 | **Dependency update ≠ policy update** | A plugin upgrade must not silently enable a new rule. New policy requires an explicit source diff.                                          |
-| **Plugin-first implementation**       | Use maintained plugin rules first; Yarapa-specific implementations live in `@yarapa/eslint-plugin-yarapa-imprement-demo`.                   |
+| **Plugin-first implementation**       | Use maintained plugin rules first; shared custom implementations live in canonical `@next-friday/eslint-plugin-friday`.                     |
 | **Type-aware TypeScript**             | Type-aware diagnostics use TypeScript `projectService`.                                                                                     |
 | **Governed suppression**              | Targeted ESLint suppressions may be used when justified and described; stale or broad suppressions are rejected.                            |
 | **Private internals**                 | Consumers receive supported package entrypoints, not internal config modules or implementation details.                                     |

@@ -4,7 +4,7 @@ import path from "node:path";
 import {eslintForConfigs, packageRoot} from "../helpers";
 import yarapa from "../../src/index";
 
-const COMPONENT_MODULE = "yarapa/component-module";
+const COMPONENT_MODULE = "friday/component-module";
 const HOME_COMPONENT = "export default function Home() { return <main />; }";
 const SONAR_FILENAME_RULE = "sonarjs/file-name-differ-from-class";
 const UNICORN_FILENAME_RULE = "unicorn/filename-case";
@@ -29,7 +29,7 @@ describe("Next.js project context", () => {
     });
 
     assert(result);
-    expect(result.messages.map(message => message.ruleId)).toContain("yarapa/props-in-body");
+    expect(result.messages.map(message => message.ruleId)).toContain("friday/props-in-body");
   });
 
   it("scopes framework filename exceptions to Next.js files", async () => {

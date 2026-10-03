@@ -36,7 +36,7 @@ Yarapa config modules are the policy authority: enabled rules are named explicit
 
 **Plugin-first implementation**
 
-Maintained plugin rules are used before custom implementations; Yarapa-specific implementations live in the standalone `@yarapa/eslint-plugin-yarapa-imprement-demo` package.
+Maintained plugin rules are used before custom implementations; shared custom rule implementations live in the canonical `@next-friday/eslint-plugin-friday` package.
 
 **Capability config**
 
