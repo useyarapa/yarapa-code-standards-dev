@@ -1,6 +1,6 @@
 {
   "name": "@yarapa/commitlint-config-yarapa-imprement-demo",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Deterministic Commitlint configuration for Yarapa projects.",
   "keywords": [
     "commitlint",
