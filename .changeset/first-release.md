@@ -4,4 +4,4 @@
 "@yarapa/prettier-config-yarapa-imprement-demo": major
 ---
 
-First release.
+First Release.

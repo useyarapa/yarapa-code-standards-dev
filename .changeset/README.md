@@ -1,19 +1,32 @@
 # Changesets
 
-Use Changesets for every externally visible publishable package change. A change with no package release impact belongs in the commit alone.
+Use a changeset for every publishable package change with external impact. Do not add a changeset for changes that do not affect a package release.
 
-Create an entry from the repository root:
+All three publishable packages currently start at `0.0.0`. `.changeset/first-release.md` is the pending shared First Release; do not create a second initial-release changeset.
+
+## Add a changeset
+
+From the repository root:
 
 ```sh
 pnpm changeset
 ```
 
-Before adding an entry, read the pending `.changeset/*.md` files and cover only changes not already recorded.
+Check pending `.changeset/*.md` files first. Do not record the same unreleased change twice.
 
-Write each entry so its release note stands alone:
+## Choose a release type
 
-- State affected rule names, severities, options, and file patterns explicitly.
-- Include migration guidance for every breaking change.
-- Name the change inline rather than pointing at an issue, pull request, or commit.
+- Use `patch` for backward-compatible fixes.
+- Use `minor` for new backward-compatible capabilities.
+- Use `major` for breaking consumer changes, including stricter policy that can make previously accepted code fail.
 
-Choose the bump from the affected package's policy: [ESLint](../packages/eslint-config-yarapa/README.md#versioning), [Prettier](../packages/prettier-config-yarapa/README.md#versioning), or [Commitlint](../packages/commitlint-config-yarapa/README.md#versioning). All packages form one fixed group (`fixed` in `config.json`), sharing a single version: bumping any one bumps and publishes all of them to that version, even a package with no change of its own. Pick the highest bump the affected packages require.
+The packages are a fixed group in `config.json`. They share one version, so the highest required bump applies to all packages.
+
+## Write release notes
+
+Write each entry so it stands on its own:
+
+- Name the affected package behavior directly.
+- Include rule names, severities, options, or file patterns when they matter.
+- Include migration guidance for breaking changes.
+- Do not rely on an issue, pull request, or commit link to explain the change.

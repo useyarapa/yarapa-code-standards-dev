@@ -4,7 +4,7 @@ Workspace topology, ESLint composition, evaluation order, policy ownership, pack
 
 ## Repository Topology
 
-A public repository with a private root pnpm workspace, orchestrated by Turborepo, that publishes three public packages.
+A public repository with a private root pnpm workspace, orchestrated by Turborepo, containing three packages.
 
 ```text
 .
@@ -126,11 +126,11 @@ The private `src/configs/index.ts` barrel is intentional and is not a consumer-f
 - `.` → `dist/index.mjs` with `dist/index.d.mts` types
 - `./package.json` → package metadata
 
-The package `files` list ships `dist/`; npm also includes the package manifest. Internal source modules are not supported consumer entrypoints.
+The package `files` list includes `dist/`; npm also includes the package manifest when the package is published. Internal source modules are not supported consumer entrypoints.
 
 ## Build and Distribution
 
-All three packages build with `tsdown` and publish ESM output under `dist/`.
+All three packages build ESM output under `dist/` with `tsdown`. That output is the distribution payload for publication.
 
 ```mermaid
 graph TD
@@ -148,7 +148,7 @@ The release workflow verifies a publish commit with `pnpm verify` before packing
 | :-------------------------- | :------------------------ | :-------------------------------------------------------------- |
 | **Behavior tests**          | `test/behavior/`          | Observable diagnostics and selected policy behavior             |
 | **Configuration tests**     | `test/configuration/`     | Selected composition, context, naming, and ownership invariants |
-| **Public API tests**        | `test/public-api/`        | Published export shape                                          |
+| **Public API tests**        | `test/public-api/`        | Public export shape                                             |
 | **Config-validation tests** | `test/config-validation/` | Parser/project-service resolution against fixture projects      |
 | **Autofix tests**           | `test/autofix/`           | Fix behavior and idempotence                                    |
 

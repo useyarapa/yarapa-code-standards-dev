@@ -1,5 +1,5 @@
 name: Bug report
-description: Report incorrect diagnostics, crashes, compatibility failures, or package-consumption defects.
+description: Report incorrect diagnostics, crashes, compatibility problems, or package usage issues.
 labels: ["bug", "needs triage"]
 assignees:
   - joetakara
@@ -9,17 +9,17 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please ensure you are testing against a supported Node.js and ESLint combination.
-        Do not include credentials, secrets, personal/customer data, or proprietary source code.
+        Reproduce the issue with a supported Node.js and ESLint version.
+        Remove credentials, secrets, personal or customer data, and proprietary source code before submitting.
   - type: checkboxes
     id: preflight
     attributes:
-      label: Pre-flight checks
-      description: Verify these items before submitting.
+      label: Before you submit
+      description: Confirm these items before submitting the report.
       options:
-        - label: I searched existing issues and verified this has not been reported yet.
+        - label: I searched existing issues and didn't find a matching report.
           required: true
-        - label: I tested against the latest version of `@yarapa/eslint-config-yarapa-imprement-demo`.
+        - label: I can reproduce this issue with the latest version of `@yarapa/eslint-config-yarapa-imprement-demo`.
           required: true
   - type: input
     id: version
@@ -32,12 +32,12 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Include Node.js, ESLint, OS, package manager, parser, and TypeScript when relevant.
+      description: List Node.js, ESLint, operating system, package manager, parser, and TypeScript versions when relevant.
       placeholder: |
         Node.js: 24.20.0
         ESLint: 10.11.0
         OS: Ubuntu 24.04 / macOS
-        Package Manager: pnpm 12.6.0
+        Package manager: pnpm 12.6.0
         TypeScript: 6.0.3
     validations:
       required: true
@@ -45,27 +45,27 @@ body:
     id: reproduction
     attributes:
       label: Minimal reproduction
-      description: Provide a minimal public reproduction repo or sanitized code/config demonstrating the defect.
+      description: Link to a minimal public reproduction or provide sanitized code and configuration that reproduce the issue.
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
       label: Expected behavior
-      description: What diagnostic, autofix, or package behavior did you expect?
+      description: Describe the behavior you expected.
     validations:
       required: true
   - type: textarea
     id: actual
     attributes:
       label: Actual behavior
-      description: What diagnostic, crash, autofix, or unexpected behavior occurred?
+      description: Describe what happened, including diagnostics, crashes, or incorrect autofixes.
     validations:
       required: true
   - type: checkboxes
     id: safety
     attributes:
-      label: Safety & integrity
+      label: Sensitive information
       options:
-        - label: I confirmed that credentials, secrets, personal/customer data, and proprietary code have been removed from this report.
+        - label: I removed credentials, secrets, personal or customer data, and proprietary code from this report.
           required: true

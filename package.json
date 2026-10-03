@@ -33,8 +33,7 @@
     "test:watch": "turbo run test:watch",
     "typecheck": "pnpm typecheck:root && turbo run typecheck",
     "typecheck:root": "pnpm --filter @yarapa/eslint-config-yarapa-imprement-demo build && tsc --noEmit -p tsconfig.json",
-    "verify": "pnpm lint:check && pnpm format:check && pnpm sort-package-json:check && pnpm peers:check && pnpm typecheck && pnpm test:coverage && pnpm knip && pnpm depcruise && pnpm build && pnpm check:publint && pnpm check:attw",
-    "version-packages": "changeset version"
+    "verify": "pnpm lint:check && pnpm format:check && pnpm sort-package-json:check && pnpm peers:check && pnpm typecheck && pnpm test:coverage && pnpm knip && pnpm depcruise && pnpm build && pnpm check:publint && pnpm check:attw"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "0.18.5",

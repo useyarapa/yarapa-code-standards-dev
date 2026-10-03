@@ -1,38 +1,16 @@
 # @yarapa/prettier-config-yarapa-imprement-demo
 
-[![npm version](https://img.shields.io/npm/v/%40yarapa%2Fprettier-config-yarapa-imprement-demo.svg?color=cb3837)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa-imprement-demo)
-[![npm downloads](https://img.shields.io/npm/dm/%40yarapa%2Fprettier-config-yarapa-imprement-demo.svg)](https://www.npmjs.com/package/@yarapa/prettier-config-yarapa-imprement-demo)
-[![node version](https://img.shields.io/badge/node-%3E%3D24.15.0-brightgreen.svg)](https://nodejs.org)
-[![license](https://img.shields.io/npm/l/%40yarapa%2Fprettier-config-yarapa-imprement-demo.svg)](../../LICENSE)
+[![CI](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml/badge.svg)](https://github.com/useyarapa/yarapa-code-standards-dev/actions/workflows/ci.yml) [![Codecov](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/useyarapa/yarapa-code-standards-dev/branch/main) [![License](https://img.shields.io/github/license/useyarapa/yarapa-code-standards-dev.svg)](../../LICENSE)
 
-Shared Prettier configuration for Yarapa projects, including shell formatting.
+One deterministic formatting contract for application code and shell scripts—no per-repository style drift.
 
-## Installation
+- Stable formatting decisions are encoded once.
+- Shell formatting ships with the same contract.
+- Layout stays separate from ESLint diagnostics and semantic policy.
 
-```sh
-# pnpm
-pnpm add -D prettier @yarapa/prettier-config-yarapa-imprement-demo
+## Usage
 
-# npm
-npm install --save-dev prettier @yarapa/prettier-config-yarapa-imprement-demo
-
-# yarn
-yarn add -D prettier @yarapa/prettier-config-yarapa-imprement-demo
-
-# bun
-bun add -d prettier @yarapa/prettier-config-yarapa-imprement-demo
-```
-
-## Requirements
-
-| Tool     | Supported range  |
-| :------- | :--------------- |
-| Node.js  | `>=24.15.0`      |
-| Prettier | `>=3.6.0 <4.0.0` |
-
-## Quick start
-
-The simplest setup is to reference the package from `package.json`:
+Reference the package directly:
 
 ```json
 {
@@ -40,13 +18,13 @@ The simplest setup is to reference the package from `package.json`:
 }
 ```
 
-You can also use `.prettierrc.json`:
+A standalone Prettier config can reference the same package:
 
 ```json
 "@yarapa/prettier-config-yarapa-imprement-demo"
 ```
 
-Or re-export it from `prettier.config.mjs`:
+Or re-export it from an ESM config:
 
 ```js
 import yarapaPrettier from "@yarapa/prettier-config-yarapa-imprement-demo";
@@ -54,26 +32,7 @@ import yarapaPrettier from "@yarapa/prettier-config-yarapa-imprement-demo";
 export default yarapaPrettier;
 ```
 
-Add scripts:
-
-```json
-{
-  "scripts": {
-    "format": "prettier --write --cache .",
-    "format:check": "prettier --check --cache ."
-  }
-}
-```
-
-Run formatting with:
-
-```sh
-pnpm format
-```
-
-## Formatting style
-
-The shared config uses:
+## Formatting contract
 
 | Option            | Value                       |
 | :---------------- | :-------------------------- |
@@ -89,29 +48,22 @@ The shared config uses:
 | Trailing commas   | Wherever valid              |
 | Tabs              | Spaces                      |
 
-The package also bundles `prettier-plugin-sh`, so shell scripts and Husky hook files can be formatted without installing the plugin separately.
+The package bundles `prettier-plugin-sh`, so shell scripts and Husky hook files use the same formatting contract.
 
-## Using it with ESLint
+## ESLint boundary
 
-[`@yarapa/eslint-config-yarapa-imprement-demo`](../eslint-config-yarapa) is designed to work with this config. Prettier owns layout formatting; ESLint owns diagnostics, code quality, semantic fixes, and non-conflicting structural rules.
+[`@yarapa/eslint-config-yarapa-imprement-demo`](../eslint-config-yarapa) is designed to work alongside this config.
 
-Run both tools independently rather than running Prettier through ESLint.
+Prettier owns layout formatting. ESLint owns diagnostics, code quality, semantic fixes, and non-conflicting structural rules. Run them as independent tools.
 
-## Editor setup
+## Compatibility
 
-### VS Code
-
-Install the Prettier extension and configure it as the default formatter:
-
-```json
-{
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true
-}
-```
-
-If you also use Yarapa ESLint, keep Prettier as the formatter and use the ESLint extension for lint fixes.
+| Surface       | Supported contract |
+| :------------ | :----------------- |
+| Node.js       | `>=24.15.0`        |
+| Prettier      | `>=3.6.0 <4.0.0`   |
+| Module format | ESM                |
 
 ## License
 
-[MIT](https://github.com/useyarapa/yarapa-code-standards/blob/main/LICENSE) © Yarapa
+[MIT](../../LICENSE) © Yarapa
